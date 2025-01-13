@@ -75,6 +75,11 @@ class timer {
     div.innerHTML = this.toString();
   }
 
+  AddMinutes(minutes, div) {
+    this.minutes += minutes;
+    div.innerHTML = this.toString();
+  }
+
   toString() {
     return `${("0" + this.hours).slice(-2)}:${("0" + this.minutes).slice(
       -2
@@ -90,6 +95,7 @@ class timer {
 
 //timerUI class
 //timer holds the timer object
+//delayInterval is the amount of minutes added to the timer when snoozing or adding time
 //containerDiv holds the title, timeContainer, and buttonContainer
 //titleContainer initiates to an h1 element with the timer title
 //timeContainer holds the h2 element with the time remaining
@@ -97,17 +103,21 @@ class timer {
 //resetButton is a button tag with a click event to reset the timer and UI elements
 //buttonContainer is a div that holds both buttons inside of it
 class timerUI {
-  constructor(timer, containerDiv) {
+  constructor(timer, containerDiv, delayInterval, audioFile) {
     this.timer = timer;
+    this.delayInterval = delayInterval;
     this.containerDiv = containerDiv;
     //create HTML
     this.titleContainer = `<h1 id="${timer.id}title">${timer.title}</h1>`;
     this.timeContainer = `<h2 id="${timer.id}time">${timer.toString()}</h2>`;
+    this.addButton = `<button id="${timer.id}add">+${delayInterval}</button>`;
     this.pauseButton = `<button id="${timer.id}pause">Start</button>`;
     this.resetButton = `<button id="${timer.id}reset">Reset</button>`;
     this.snoozeButton = `<button id="${timer.id}snooze" hidden>Snooze</button>`;
     this.dismissButton = `<button id="${timer.id}dismiss" hidden>Dismiss</button>`;
-    this.buttonContainer = `<div id="${timer.id}btn">${this.pauseButton} ${this.resetButton} ${this.snoozeButton} ${this.dismissButton}</div>`;
+    this.buttonContainer = `<div id="${timer.id}btn">${this.addButton} ${this.pauseButton} ${this.resetButton} ${this.snoozeButton} ${this.dismissButton}</div>`;
+    if (audioFile != null)
+      this.audio = `<audio src="${audioFile}" id="${timer.id}audio" hidden>${timer.title}</audio>`;
     //set html
     this.containerDiv.innerHTML = `${this.titleContainer}
                                     ${this.timeContainer} 
@@ -115,13 +125,20 @@ class timerUI {
     //retrieve HTML elements
     this.titleContainer = document.getElementById(`${timer.id}title`);
     this.timeContainer = document.getElementById(`${timer.id}time`);
+    this.addButton = document.getElementById(`${timer.id}add`);
     this.pauseButton = document.getElementById(`${timer.id}pause`);
     this.resetButton = document.getElementById(`${timer.id}reset`);
     this.snoozeButton = document.getElementById(`${timer.id}snooze`);
     this.dismissButton = document.getElementById(`${timer.id}dismiss`);
     this.buttonContainer = document.getElementById(`${timer.id}btn`);
+    if (audioFile != null)
+      this.audio = document.getElementById(`${timer.id}audio`);
 
     //set event listeners
+    this.addButton.addEventListener("click", () => {
+      this.timer.AddMinutes(this.delayInterval, this.timeContainer);
+    });
+
     this.pauseButton.addEventListener("click", () => {
       if (timer.isPaused) {
         this.timer.StartTimer(this.timeContainer);
@@ -135,35 +152,55 @@ class timerUI {
     this.resetButton.addEventListener("click", () => {
       this.timer.ResetTimer(this.timeContainer);
       this.pauseButton.innerHTML = "Start";
-    });
+  });
 
     this.snoozeButton.addEventListener("click", () => {
       this.timer.hours = 0;
-      this.timer.minutes = 5;
+      this.timer.minutes = this.delayInterval;
       this.timer.seconds = 0;
       this.timer.StartTimer(this.timeContainer);
+      this.addButton.hidden = false;
       this.resetButton.hidden = false;
       this.pauseButton.hidden = false;
       this.snoozeButton.hidden = true;
       this.dismissButton.hidden = true;
       this.pauseButton.innerHTML = "Pause";
+      if (this.audio != null) this.audio.pause();
     });
 
     this.dismissButton.addEventListener("click", () => {
       this.timer.ResetTimer(this.timeContainer);
+      this.addButton.hidden = false;
       this.resetButton.hidden = false;
       this.pauseButton.hidden = false;
       this.snoozeButton.hidden = true;
       this.dismissButton.hidden = true;
+      if (this.audio != null) this.audio.pause();
     });
+  }
+
+  SetButtonClass(classString) {
+    this.pauseButton.classList.remove(...this.pauseButton.classList);
+    this.pauseButton.classList.add(classString);
+
+    this.resetButton.classList.remove(...this.resetButton.classList);
+    this.resetButton.classList.add(classString);
+
+    this.snoozeButton.classList.remove(...this.snoozeButton.classList);
+    this.snoozeButton.classList.add(classString);
+
+    this.dismissButton.classList.remove(...this.dismissButton.classList);
+    this.dismissButton.classList.add(classString);
   }
 
   OnDone() {
     this.pauseButton.innerHTML = "Start";
+    this.addButton.hidden = true;
     this.resetButton.hidden = true;
     this.pauseButton.hidden = true;
     this.snoozeButton.hidden = false;
     this.dismissButton.hidden = false;
+    if (this.audio != null) this.audio.play();
   }
 }
 
@@ -174,14 +211,17 @@ let t = new timer(0, 0, 2, "timer 1");
 t.addEventListener("done", () => {
   tUI.OnDone();
 });
-let tUI = new timerUI(t, timerDiv);
+let tUI = new timerUI(t, timerDiv, 5);
 
-// let timer2Div = document.getElementById("timer2");
-// let t2 = new timer(0, 1, 2, "timer 2");
-// let tUI2 = new timerUI(t2, timer2Div);
+/////////////////////////////////////////////////
 
-// tUI2.pauseButton.classList.add("test");
-// tUI2.resetButton.classList.add("test");
+let timer2Div = document.getElementById("timer2");
+
+let t2 = new timer(0, 0, 4, "timer 2");
+t2.addEventListener("done 2", () => {
+  tUI2.OnDone();
+});
+let tUI2 = new timerUI(t2, timer2Div, 5);
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

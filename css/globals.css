@@ -82,16 +82,16 @@ button {
   border-radius: 16px;
   color: var(--black);
   cursor: pointer;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 300;
   padding: 0.8rem 1.6rem;
   transition: all 0.3s;
 }
 
 button:hover {
-  background-color: var(--white);
+  background-color: var(--gray);
   border: 1px solid var(--black);
-  color: var(--gray);
+  color: var(--white);
 }
 
 /** Custom classes for broadly used styles. **/

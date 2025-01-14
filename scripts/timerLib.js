@@ -107,9 +107,11 @@ class timerUI {
     this.timer = timer;
     this.delayInterval = delayInterval;
     this.containerDiv = containerDiv;
+    this.containerDiv.style.position = "relative";
     //create HTML
     this.titleContainer = `<h1 id="${timer.id}title">${timer.title}</h1>`;
     this.timeContainer = `<h2 id="${timer.id}time">${timer.toString()}</h2>`;
+    this.closeButton = `<button id="${timer.id}close" style="background:none; border:none; position: absolute; top:0; right:0;">X</button>`;
     this.addButton = `<button id="${timer.id}add">+${delayInterval}</button>`;
     this.pauseButton = `<button id="${timer.id}pause">Start</button>`;
     this.resetButton = `<button id="${timer.id}reset">Reset</button>`;
@@ -117,14 +119,17 @@ class timerUI {
     this.dismissButton = `<button id="${timer.id}dismiss" hidden>Dismiss</button>`;
     this.buttonContainer = `<div id="${timer.id}btn">${this.addButton} ${this.pauseButton} ${this.resetButton} ${this.snoozeButton} ${this.dismissButton}</div>`;
     if (audioFile != null)
-      this.audio = `<audio src="${audioFile}" id="${timer.id}audio" hidden>${timer.title}</audio>`;
+      this.audio = `<audio src="${audioFile}" id="${timer.id}audio" hidden></audio>`;
     //set html
-    this.containerDiv.innerHTML = `${this.titleContainer}
+    this.containerDiv.innerHTML = `${this.closeButton}
+                                    ${this.titleContainer}
                                     ${this.timeContainer} 
-                                    ${this.buttonContainer}`;
+                                    ${this.buttonContainer}
+                                    ${this.audio ? this.audio : ""}`;
     //retrieve HTML elements
     this.titleContainer = document.getElementById(`${timer.id}title`);
     this.timeContainer = document.getElementById(`${timer.id}time`);
+    this.closeButton = document.getElementById(`${timer.id}close`);
     this.addButton = document.getElementById(`${timer.id}add`);
     this.pauseButton = document.getElementById(`${timer.id}pause`);
     this.resetButton = document.getElementById(`${timer.id}reset`);
@@ -135,6 +140,11 @@ class timerUI {
       this.audio = document.getElementById(`${timer.id}audio`);
 
     //set event listeners
+    this.closeButton.addEventListener("click", () => {
+      this.timer.StopTimer();
+      this.containerDiv.outerHTML = "";
+    });
+
     this.addButton.addEventListener("click", () => {
       this.timer.AddMinutes(this.delayInterval, this.timeContainer);
     });
@@ -152,7 +162,7 @@ class timerUI {
     this.resetButton.addEventListener("click", () => {
       this.timer.ResetTimer(this.timeContainer);
       this.pauseButton.innerHTML = "Start";
-  });
+    });
 
     this.snoozeButton.addEventListener("click", () => {
       this.timer.hours = 0;
@@ -179,18 +189,23 @@ class timerUI {
     });
   }
 
-  SetButtonClass(classString) {
-    this.pauseButton.classList.remove(...this.pauseButton.classList);
-    this.pauseButton.classList.add(classString);
-
+  SetSecondaryButtonClass(classString) {
     this.resetButton.classList.remove(...this.resetButton.classList);
     this.resetButton.classList.add(classString);
 
-    this.snoozeButton.classList.remove(...this.snoozeButton.classList);
-    this.snoozeButton.classList.add(classString);
-
     this.dismissButton.classList.remove(...this.dismissButton.classList);
     this.dismissButton.classList.add(classString);
+  }
+
+  SetPrimaryButtonClass(classString) {
+    this.pauseButton.classList.remove(...this.pauseButton.classList);
+    this.pauseButton.classList.add(classString);
+
+    this.addButton.classList.remove(...this.addButton.classList);
+    this.addButton.classList.add(classString);
+
+    this.snoozeButton.classList.remove(...this.snoozeButton.classList);
+    this.snoozeButton.classList.add(classString);
   }
 
   OnDone() {
@@ -210,9 +225,10 @@ let timerDiv = document.getElementById("timer");
 let t = new timer(0, 0, 2, "timer 1");
 t.addEventListener("done", () => {
   tUI.OnDone();
+  alert("1 & done!");
 });
 let tUI = new timerUI(t, timerDiv, 5);
-
+tUI.SetSecondaryButtonClass("btn-warning");
 /////////////////////////////////////////////////
 
 let timer2Div = document.getElementById("timer2");
@@ -222,6 +238,7 @@ t2.addEventListener("done 2", () => {
   tUI2.OnDone();
 });
 let tUI2 = new timerUI(t2, timer2Div, 5);
+tUI2.SetSecondaryButtonClass("btn-warning");
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

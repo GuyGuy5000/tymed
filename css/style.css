@@ -1,3 +1,28 @@
+#wrapper {
+    /* margin: 5%; */
+}
+
+.timer-list-container {
+    gap: 0px;
+    min-height: 50vh;
+}
+
 .timer-container {
+    align-items: center;
+    border: 1px solid black;
     flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 16px;
+    min-width: 50%;
+    
+}
+
+.btn-warning {
+    background-color: var(--red);
+}
+
+.btn-warning:hover {
+    color: var(--red);
+    background-color: var(--black);
 }

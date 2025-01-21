@@ -2,17 +2,18 @@
 //id is used to create a unique id for html elements. Created with a trimmed title + timestamp;
 //intervalID is used to capture the result from setInterval();
 //hours, minutes, and seconds are mutable and change when the timer is ticking
-//title is used to differentiate each timer
+//title and message are used to differentiate each timer
 //isPaused is a flag for whether the timer is paused or not
 //time array contains the original values passed into the timer to be able to reset hours, minutes, and seconds
 class timer {
-  constructor(hours, minutes, seconds, title) {
+  constructor(hours, minutes, seconds, title, message) {
     this.id = title.replace(/\s/g, "") + Date.now();
     this.intervalID;
     this.hours = hours;
     this.minutes = minutes;
     this.seconds = seconds;
     this.title = title;
+    this.message = message;
     this.isPaused = true;
     this.time = [hours, minutes, seconds];
     this.callback = null;
@@ -57,7 +58,11 @@ class timer {
     if (diff <= 0) {
       clearInterval(this.intervalID);
       if (this.callback != null) this.callback();
-      else alert(`${this.title} is up!`);
+      else {
+        this.StopTimer();
+        alert(this.title + "is done!");
+        this.ResetTimer();
+      }
 
       return;
     }
@@ -142,7 +147,7 @@ class timerUI {
     //set event listeners
     this.closeButton.addEventListener("click", () => {
       this.timer.StopTimer();
-      this.containerDiv.outerHTML = "";
+      this.containerDiv.outerHTML = null;
     });
 
     this.addButton.addEventListener("click", () => {
@@ -162,6 +167,7 @@ class timerUI {
     this.resetButton.addEventListener("click", () => {
       this.timer.ResetTimer(this.timeContainer);
       this.pauseButton.innerHTML = "Start";
+      this.titleContainer.innerHTML = this.timer.title;
     });
 
     this.snoozeButton.addEventListener("click", () => {
@@ -175,6 +181,7 @@ class timerUI {
       this.snoozeButton.hidden = true;
       this.dismissButton.hidden = true;
       this.pauseButton.innerHTML = "Pause";
+      this.titleContainer.innerHTML = this.timer.title;
       if (this.audio != null) this.audio.pause();
     });
 
@@ -185,6 +192,7 @@ class timerUI {
       this.pauseButton.hidden = false;
       this.snoozeButton.hidden = true;
       this.dismissButton.hidden = true;
+      this.titleContainer.innerHTML = this.timer.title;
       if (this.audio != null) this.audio.pause();
     });
   }
@@ -215,31 +223,32 @@ class timerUI {
     this.pauseButton.hidden = true;
     this.snoozeButton.hidden = false;
     this.dismissButton.hidden = false;
+    this.titleContainer.innerHTML = this.timer.message;
     if (this.audio != null) this.audio.play();
   }
 }
 
 //test code
-let timerDiv = document.getElementById("timer");
+// let timerDiv = document.getElementById("timer");
 
-let t = new timer(0, 0, 2, "timer 1");
-t.addEventListener("done", () => {
-  tUI.OnDone();
-  alert("1 & done!");
-});
-let tUI = new timerUI(t, timerDiv, 5);
-tUI.SetSecondaryButtonClass("btn-warning");
-/////////////////////////////////////////////////
+// let t = new timer(0, 0, 2, "timer 1", "Do a thing!");
+// t.addEventListener("done", () => {
+//   tUI.OnDone();
+//   alert("1 & done!");
+// });
+// let tUI = new timerUI(t, timerDiv, 5);
+// tUI.SetSecondaryButtonClass("btn-warning");
+// /////////////////////////////////////////////////
 
-let timer2Div = document.getElementById("timer2");
+// let timer2Div = document.getElementById("timer2");
 
-let t2 = new timer(0, 0, 4, "timer 2");
-t2.addEventListener("done 2", () => {
-  tUI2.OnDone();
-});
-let tUI2 = new timerUI(t2, timer2Div, 5);
-tUI2.SetSecondaryButtonClass("btn-warning");
+// let t2 = new timer(0, 0, 4, "timer 2", "Do another thing!");
+// t2.addEventListener("done 2", () => {
+//   tUI2.OnDone();
+// });
+// let tUI2 = new timerUI(t2, timer2Div, 5);
+// tUI2.SetSecondaryButtonClass("btn-warning");
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// function sleep(ms) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }

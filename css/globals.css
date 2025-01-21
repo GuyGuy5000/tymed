@@ -86,7 +86,6 @@ button {
   font-size: 1.25rem;
   font-weight: 300;
   padding: 0.8rem 1.6rem;
-  transition: all 0.3s;
 }
 
 button:hover {
@@ -102,6 +101,11 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+/* invalid control */
+.invalid-control {
+  border: 1px solid red;
 }
 
 

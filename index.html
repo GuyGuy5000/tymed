@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tymed</title>
 
-    <!--css-->
-    <link rel="stylesheet" href="css/globals.css" />
-    <link rel="stylesheet" href="css/style.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tymed</title>
 
-    <!--Icons-->
-    <script
-      src="https://kit.fontawesome.com/9538a7980f.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <div id="wrapper">
-      <div class="flex-container timer-list-container">
-        <div class="flex-container timer-container" id="timer"></div>
+  <!--css-->
+  <link rel="stylesheet" href="css/globals.css" />
+  <link rel="stylesheet" href="css/style.css" />
 
-        <div class="flex-container timer-container" id="timer2"></div>
+  <!--Icons-->
+  <script src="https://kit.fontawesome.com/9538a7980f.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div>
+    <div class="timer-form">
+      <button id="btnAddTimer" class="btn-add-timer">
+        Set A Timer<i class="fa-solid fa-circle-plus"></i>
+      </button>
+      <input id="txtName" type="text" placeholder="Timer Name" hidden />
+      <div id="timeContainer" hidden>
+        <input id="txtHours" class="time-input" type="text" placeholder="00" value="00" maxlength="2" />:<input
+          id="txtMinutes" class="time-input" type="text" placeholder="00" value="05" maxlength="2" />:<input
+          id="txtSeconds" class="time-input" type="text" placeholder="00" value="00" maxlength="2" />
+        <i class="fa-regular fa-clock"></i>
       </div>
-
-      <div class="timer-form"></div>
+      <textarea id="txtMessage" placeholder="Alarm Message" hidden></textarea>
+      <input id="btnStart" type="button" value="Start" hidden>
     </div>
-    <!--scripts-->
-    <script src="scripts/timerLib.js"></script>
-  </body>
+
+    <div id="timerArrayContainer" class="flex-container timer-list-container">
+    </div>
+  </div>
+  <!--scripts-->
+  <script src="scripts/timerLib.js"></script>
+  <script src="scripts/timerForm.js"></script>
+</body>
+
 </html>

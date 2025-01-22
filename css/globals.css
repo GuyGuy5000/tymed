@@ -18,6 +18,10 @@
 
 /** Global styles here will be automatically applied, can be overritten where used. **/
 
+body {
+  background-color: var(--paper);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -89,15 +93,14 @@ button {
 }
 
 button:hover {
-  background-color: var(--gray);
-  border: 1px solid var(--black);
-  color: var(--white);
+  scale: 1.1;
 }
 
 /** Custom classes for broadly used styles. **/
 
 /* flex container */
 .flex-container {
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -108,6 +111,58 @@ button:hover {
   border: 1px solid red;
 }
 
+/* custom dropdown */
+.nav-arrow {
+  border: solid var(--black);
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  margin: 0 5px;
+  margin-bottom: 5px;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.dropdownbtn {
+  background-color: #FFF;
+  color: var(--black);
+  height: 40px;
+  min-width: 120px;
+  padding: 0;
+}
+
+.dropdown {
+  align-items: center;
+  display: none;
+  font-size: 15px;
+  position: relative;
+}
+
+.dropdown-content {
+  background-color: #FFF;
+  border-radius: 16px;
+  display: block;
+  min-width: 220px;
+  position: absolute;
+  top: -1000px;
+  transition: none;
+  z-index: 1;
+}
+
+.dropdownbtn:hover {
+  scale: 1;
+}
+
+.dropdownbtn:hover .nav-arrow,
+.dropdownbtn:focus .nav-arrow {
+  transform: rotate(45deg);
+}
+
+.dropdownbtn:focus + .dropdown-content,
+.dropdown-content:focus-within {
+  border: 1px solid var(--gray);
+  top: 40px;
+}
 
 /* Media Queries */
 @media only screen and (max-width: 1090px) {
@@ -139,13 +194,10 @@ button:hover {
   p {
     font-size: 1rem;
   }
-
 }
 
 @media only screen and (max-width: 768px) {
-
 }
 
 @media only screen and (max-width: 440px) {
-
 }

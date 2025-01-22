@@ -2,38 +2,61 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>tymed</title>
 
   <!--css-->
-  <link rel="stylesheet" href="css/globals.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/globals.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <!--Icons-->
   <script src="https://kit.fontawesome.com/9538a7980f.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <div>
+  <main>
     <div class="timer-form">
       <button id="btnAddTimer" class="btn-add-timer">
         Set A Timer<i class="fa-solid fa-circle-plus"></i>
       </button>
-      <input id="txtName" type="text" placeholder="Timer Name" hidden />
-      <div id="timeContainer" hidden>
-        <input id="txtHours" class="time-input" type="text" placeholder="00" value="00" maxlength="2" />:<input
-          id="txtMinutes" class="time-input" type="text" placeholder="00" value="05" maxlength="2" />:<input
-          id="txtSeconds" class="time-input" type="text" placeholder="00" value="00" maxlength="2" />
-        <i class="fa-regular fa-clock"></i>
+      <input id="txtName" type="text" placeholder="Timer Name" hidden>
+      <div class="flex-container">
+        <div id="timeContainer" hidden>
+          <input id="txtHours" class="time-input" type="text" placeholder="00" value="00" maxlength="2">:<input
+            id="txtMinutes" class="time-input" type="text" placeholder="00" value="05" maxlength="2">:<input
+            id="txtSeconds" class="time-input" type="text" placeholder="00" value="00" maxlength="2">
+          <i class="fa-regular fa-clock"></i>
+        </div>
+        <div id="cboColour" class="dropdown">
+          <button class="dropdownbtn">Colour <i class="nav-arrow"></i></button>
+          <ul class="dropdown-content colour-dropdown">
+            <li class="colour-container">
+              <input name="cboColour" id="Red" type="button" value="Red" class="colour-option"
+                style="border-left: 20px solid red;">
+            </li>
+            <li class="colour-container">
+              <input name="cboColour" id="Blue" type="button" value="Blue" class="colour-option"
+                style="border-left: 20px solid blue;">
+            </li>
+            <li class="colour-container">
+              <input name="cboColour" id="Green" type="button" value="Green" class="colour-option"
+                style="border-left: 20px solid green;">
+            </li>
+            <li class="colour-container">
+              <input name="cboColour" id="Yellow" type="button" value="Yellow" class="colour-option"
+                style="border-left: 20px solid yellow;">
+            </li>
+          </ul>
+        </div>
       </div>
       <textarea id="txtMessage" placeholder="Alarm Message" hidden></textarea>
-      <input id="btnStart" type="button" value="Start" hidden>
+      <input id="btnStart" type="button" value="Add" hidden>
     </div>
 
     <div id="timerArrayContainer" class="flex-container timer-list-container">
     </div>
-  </div>
+  </main>
   <!--scripts-->
   <script src="scripts/timerLib.js"></script>
   <script src="scripts/timerForm.js"></script>

@@ -223,7 +223,8 @@ class timerUI {
     this.pauseButton.hidden = true;
     this.snoozeButton.hidden = false;
     this.dismissButton.hidden = false;
-    this.titleContainer.innerHTML = this.timer.message;
+    if (this.timer.message)
+      this.titleContainer.innerHTML = this.timer.message;
     if (this.audio != null) this.audio.play();
   }
 }

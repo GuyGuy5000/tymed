@@ -5,6 +5,7 @@ let timeContainer = document.getElementById("timeContainer");
 let txtHours = document.getElementById("txtHours");
 let txtMinutes = document.getElementById("txtMinutes");
 let txtSeconds = document.getElementById("txtSeconds");
+let cboColour = document.getElementById("cboColour");
 let txtMessage = document.getElementById("txtMessage");
 let btnStart = document.getElementById("btnStart");
 
@@ -16,6 +17,7 @@ btnAdd.addEventListener("click", () => {
   btnAdd.style.display = "none";
   txtName.style.display = "block";
   timeContainer.style.display = "block";
+  cboColour.style.display = "block";
   txtMessage.style.display = "block";
   btnStart.style.display = "block";
 });
@@ -66,7 +68,7 @@ btnStart.addEventListener("click", () => {
   }
 
   //create timer
-  t = new timer(hours, minutes, seconds, txtName.value, txtMessage.value + " ");
+  t = new timer(hours, minutes, seconds, txtName.value, txtMessage.value);
   //create container div
   let innerDiv = document.createElement("div");
   innerDiv.classList.add("flex-container");
@@ -75,6 +77,16 @@ btnStart.addEventListener("click", () => {
   timersContainer.appendChild(innerDiv);
   //create UI
   tUI = new timerUI(t, innerDiv, 5, null);
+  tUI.SetSecondaryButtonClass("btn-warning");
+  t.addEventListener("done", () => {
+    tUI.OnDone();
+  });
   //add timer to list
   timerArray.push(tUI);
+
+  txtName.value = "";
+  txtHours.value = "00";
+  txtMinutes.value = "05";
+  txtSeconds.value = "00";
+  txtMessage.value = "";
 });

@@ -17,11 +17,6 @@
     background-color: var(--red);
 }
 
-.btn-warning:hover {
-    color: var(--red);
-    background-color: var(--black);
-}
-
 .timer-form {
     align-items: center;
     border-bottom: 2px solid var(--black);
@@ -73,18 +68,54 @@
     width: 30px;
 }
 
+#txtName {
+    width: 250px;
+}
+
+.colour-dropdown {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    list-style-type: none;
+    padding: 6px;
+}
+
+.colour-container {
+    display: flex;
+}
+
+.colour-dropdown .colour-option {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    display: flex;
+    height: auto;
+    width: auto;
+}
+
+#timeContainer {
+    background-color: #fff;
+    border: 1px solid var(--black);
+    border-radius: 16px;
+    padding: 5px;
+}
+
 #txtMessage {
     border-radius: 8px;
     height: 100px;
     padding: 8px;
     resize: vertical;
     transition: none;
+    width: 250px;
 }
 
 #btnStart {
+    background-color: #fff;
+    cursor: pointer;
     height: 48px;
     width: 124px;
-    cursor: pointer;
 }
 
 #btnStart:hover {

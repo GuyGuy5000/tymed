@@ -16,7 +16,7 @@
 
 <body>
   <main>
-    <div class="timer-form">
+    <div id="timerForm" class="timer-form">
       <button id="btnAddTimer" class="btn-add-timer">
         Set A Timer<i class="fa-solid fa-circle-plus"></i>
       </button>
@@ -29,23 +29,31 @@
           <i class="fa-regular fa-clock"></i>
         </div>
         <div id="cboColour" class="dropdown">
-          <button class="dropdownbtn">Colour <i class="nav-arrow"></i></button>
+          <button id="btnColour" class="dropdownbtn">Colour <i class="nav-arrow"></i></button>
           <ul class="dropdown-content colour-dropdown">
             <li class="colour-container">
+              <input name="cboColour" id="White" type="button" value="White" class="colour-option"
+                style="border-left: 20px solid var(--white);">
+            </li>
+            <li class="colour-container">
               <input name="cboColour" id="Red" type="button" value="Red" class="colour-option"
-                style="border-left: 20px solid red;">
+                style="border-left: 20px solid var(--red);">
             </li>
             <li class="colour-container">
               <input name="cboColour" id="Blue" type="button" value="Blue" class="colour-option"
-                style="border-left: 20px solid blue;">
+                style="border-left: 20px solid var(--blue);">
             </li>
             <li class="colour-container">
               <input name="cboColour" id="Green" type="button" value="Green" class="colour-option"
-                style="border-left: 20px solid green;">
+                style="border-left: 20px solid var(--green);">
             </li>
             <li class="colour-container">
               <input name="cboColour" id="Yellow" type="button" value="Yellow" class="colour-option"
-                style="border-left: 20px solid yellow;">
+                style="border-left: 20px solid var(--yellow);">
+            </li>
+            <li class="colour-container">
+              <input name="cboColour" id="Purple" type="button" value="Purple" class="colour-option"
+                style="border-left: 20px solid var(--purple);">
             </li>
           </ul>
         </div>

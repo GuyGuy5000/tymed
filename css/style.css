@@ -4,7 +4,7 @@
 
 .timer-container {
     align-items: center;
-    border: 1px solid black;
+    border: 1px solid var(--black);
     flex-direction: column;
     flex-grow: 1;
     justify-content: center;
@@ -14,7 +14,8 @@
 }
 
 .btn-warning {
-    background-color: var(--red);
+    background-color: var(--red-warning);
+    color: var(--white);
 }
 
 .timer-form {
@@ -69,6 +70,7 @@
 }
 
 #txtName {
+    height: 40px;
     width: 250px;
 }
 
@@ -76,7 +78,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 12px;
+    justify-content: flex-start;
+    gap: 16px;
     list-style-type: none;
     padding: 6px;
 }
@@ -85,14 +88,16 @@
     display: flex;
 }
 
-.colour-dropdown .colour-option {
+.dropdown .colour-option {
     background-color: transparent;
     border: none;
     border-radius: 0;
     cursor: pointer;
-    display: flex;
+    display: block;
     height: auto;
-    width: auto;
+    padding-left: 4px;
+    text-align: left;
+    width: 90px;
 }
 
 #timeContainer {

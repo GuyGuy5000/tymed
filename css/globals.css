@@ -1,12 +1,14 @@
 :root {
-  --black: #222;
+  --black: #1c1c1c;
   --gray: #808080;
-  --white: #eee;
-  --purple: #590396;
-  --blue: #0a1468;
-  --neutral-blue: #707e91;
+  --white: #f2f2f2f2;
+  --purple: #cc79e8;
+  --blue: #7a8ffa;
   --paper: #fff8eb;
-  --red: #ff9d9d;
+  --red: #FF8A8A;
+  --red-warning: #990000;
+  --green: #6acf84;
+  --yellow: #fcdb38;
 }
 
 * {
@@ -19,7 +21,7 @@
 /** Global styles here will be automatically applied, can be overritten where used. **/
 
 body {
-  background-color: var(--paper);
+  background-color: var(--white);
 }
 
 html {
@@ -127,7 +129,7 @@ button:hover {
   background-color: #FFF;
   color: var(--black);
   height: 40px;
-  min-width: 120px;
+  min-width: 112px;
   padding: 0;
 }
 
@@ -142,9 +144,10 @@ button:hover {
   background-color: #FFF;
   border-radius: 16px;
   display: block;
-  min-width: 220px;
+  width: 220px;
   position: absolute;
   top: -1000px;
+  right: 0;
   transition: none;
   z-index: 1;
 }
@@ -161,7 +164,7 @@ button:hover {
 .dropdownbtn:focus + .dropdown-content,
 .dropdown-content:focus-within {
   border: 1px solid var(--gray);
-  top: 40px;
+  top: 35px;
 }
 
 /* Media Queries */

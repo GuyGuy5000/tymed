@@ -1,11 +1,20 @@
 //new timer form
+let timerForm = document.getElementById("timerForm");
+timerForm.style.height = "100vh";
+
 let btnAdd = document.getElementById("btnAddTimer");
 let txtName = document.getElementById("txtName");
+
 let timeContainer = document.getElementById("timeContainer");
 let txtHours = document.getElementById("txtHours");
 let txtMinutes = document.getElementById("txtMinutes");
 let txtSeconds = document.getElementById("txtSeconds");
+
 let cboColour = document.getElementById("cboColour");
+let btnColour = document.getElementById("btnColour");
+let selectedColour = "white";
+let colourOptions = document.querySelectorAll('input[name="cboColour"]');
+
 let txtMessage = document.getElementById("txtMessage");
 let btnStart = document.getElementById("btnStart");
 
@@ -22,53 +31,19 @@ btnAdd.addEventListener("click", () => {
   btnStart.style.display = "block";
 });
 
+//add timer event
 btnStart.addEventListener("click", () => {
   //validation
-  const isValid = (n) => typeof n === "number" && !isNaN(n) && !(n < 0);
-
-  //title
-  if (!txtName.value) {
-    txtName.focus();
-    txtName.placeholder = "A name is required";
-    txtName.classList.add("invalid-control");
-    return;
-  } else {
-    txtName.classList.remove("invalid-control");
-    txtName.placeholder = "Timer Name";
-  }
-
-  //hours
-  let hours = parseInt(txtHours.value);
-  if (!txtHours.value || !isValid(hours)) {
-    txtHours.focus();
-    txtHours.classList.add("invalid-control");
-    return;
-  } else {
-    txtHours.classList.remove("invalid-control");
-  }
-
-  //minutes
-  let minutes = parseInt(txtMinutes.value);
-  if (!txtMinutes.value || !isValid(minutes)) {
-    txtMinutes.focus();
-    txtMinutes.classList.add("invalid-control");
-    return;
-  } else {
-    txtMinutes.classList.remove("invalid-control");
-  }
-
-  //seconds
-  let seconds = parseInt(txtSeconds.value);
-  if (!txtSeconds.value || !isValid(seconds)) {
-    txtSeconds.focus();
-    txtSeconds.classList.add("invalid-control");
-    return;
-  } else {
-    txtSeconds.classList.remove("invalid-control");
-  }
+  if (!validateTimer(txtName, txtHours, txtMinutes, txtSeconds)) return;
 
   //create timer
-  t = new timer(hours, minutes, seconds, txtName.value, txtMessage.value);
+  t = new timer(
+    parseInt(txtHours.value),
+    parseInt(txtMinutes.value),
+    parseInt(txtSeconds.value),
+    txtName.value,
+    txtMessage.value
+  );
   //create container div
   let innerDiv = document.createElement("div");
   innerDiv.classList.add("flex-container");
@@ -76,7 +51,7 @@ btnStart.addEventListener("click", () => {
   innerDiv.id = `${t.id}${timerArray.length}`;
   timersContainer.appendChild(innerDiv);
   //create UI
-  tUI = new timerUI(t, innerDiv, 5, null);
+  tUI = new timerUI(t, innerDiv, 5, selectedColour, null);
   tUI.SetSecondaryButtonClass("btn-warning");
   t.addEventListener("done", () => {
     tUI.OnDone();
@@ -88,5 +63,72 @@ btnStart.addEventListener("click", () => {
   txtHours.value = "00";
   txtMinutes.value = "05";
   txtSeconds.value = "00";
+  btnColour.innerHTML = `Colour <i class="nav-arrow"></i>`;
+  selectedColour = "white";
   txtMessage.value = "";
+  timerForm.style.height = "50vh";
+
+  btnAdd.style.display = "flex";
+  txtName.style.display = "none";
+  timeContainer.style.display = "none";
+  cboColour.style.display = "none";
+  txtMessage.style.display = "none";
+  btnStart.style.display = "none";
+  timerForm.style.backgroundColor = `transparent`;
 });
+
+//select colour event
+colourOptions.forEach((colourNode) => {
+  colourNode.addEventListener("click", () => {
+    selectedColour = colourNode.value.toLowerCase();
+    btnColour.innerHTML = `${selectedColour} <i class="nav-arrow"></i>`;
+    timerForm.style.backgroundColor = `var(--${selectedColour})`;
+  });
+});
+
+//validates user input or highlights controls with wrong input
+function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
+  const isValid = (n) => typeof n === "number" && !isNaN(n) && !(n < 0);
+  //title
+  if (!titleInput.value) {
+    titleInput.focus();
+    titleInput.placeholder = "A name is required";
+    titleInput.classList.add("invalid-control");
+    return false;
+  } else {
+    titleInput.classList.remove("invalid-control");
+    titleInput.placeholder = "Timer Name";
+  }
+
+  //hours
+  let hours = parseInt(hoursInput.value);
+  if (!hoursInput.value || !isValid(hours)) {
+    hoursInput.focus();
+    hoursInput.classList.add("invalid-control");
+    return false;
+  } else {
+    hoursInput.classList.remove("invalid-control");
+  }
+
+  //minutes
+  let minutes = parseInt(minutesInput.value);
+  if (!minutesInput.value || !isValid(minutes)) {
+    minutesInput.focus();
+    minutesInput.classList.add("invalid-control");
+    return false;
+  } else {
+    minutesInput.classList.remove("invalid-control");
+  }
+
+  //seconds
+  let seconds = parseInt(secondsInput.value);
+  if (!secondsInput.value || !isValid(seconds)) {
+    secondsInput.focus();
+    secondsInput.classList.add("invalid-control");
+    return false;
+  } else {
+    secondsInput.classList.remove("invalid-control");
+  }
+
+  return true;
+}

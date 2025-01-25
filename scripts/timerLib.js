@@ -108,7 +108,7 @@ class timer {
 //resetButton is a button tag with a click event to reset the timer and UI elements
 //buttonContainer is a div that holds both buttons inside of it
 class timerUI {
-  constructor(timer, containerDiv, delayInterval, audioFile) {
+  constructor(timer, containerDiv, delayInterval, bgColour, audioFile) {
     this.timer = timer;
     this.delayInterval = delayInterval;
     this.containerDiv = containerDiv;
@@ -116,7 +116,7 @@ class timerUI {
     //create HTML
     this.titleContainer = `<h1 id="${timer.id}title">${timer.title}</h1>`;
     this.timeContainer = `<h2 id="${timer.id}time">${timer.toString()}</h2>`;
-    this.closeButton = `<button id="${timer.id}close" style="background:none; border:none; position: absolute; top:0; right:0;">X</button>`;
+    this.closeButton = `<button id="${timer.id}close" style="background:none; border:none; position: absolute; top:16px; right:16px;">X</button>`;
     this.addButton = `<button id="${timer.id}add">+${delayInterval}</button>`;
     this.pauseButton = `<button id="${timer.id}pause">Start</button>`;
     this.resetButton = `<button id="${timer.id}reset">Reset</button>`;
@@ -141,8 +141,14 @@ class timerUI {
     this.snoozeButton = document.getElementById(`${timer.id}snooze`);
     this.dismissButton = document.getElementById(`${timer.id}dismiss`);
     this.buttonContainer = document.getElementById(`${timer.id}btn`);
+
+    //audio
     if (audioFile != null)
       this.audio = document.getElementById(`${timer.id}audio`);
+
+    //set bg colour
+    if (bgColour != null)
+      this.containerDiv.style.backgroundColor = `var(--${bgColour})`;
 
     //set event listeners
     this.closeButton.addEventListener("click", () => {

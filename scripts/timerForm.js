@@ -110,7 +110,7 @@ audioOptions.forEach((audioNode) => {
       btnAudio.innerHTML = `No Sound <i class="nav-arrow"></i>`;
       selectedAudio.src = null;
     } else {
-      selectedAudio.src = "/audio/" + audioNode.dataset.audio.toLowerCase();
+      selectedAudio.src = "audio/" + audioNode.dataset.audio.toLowerCase();
       btnAudio.innerHTML = `${audioNode.value} <i class="nav-arrow"></i>`;
       selectedAudio.play();
       sampleTime = 4;

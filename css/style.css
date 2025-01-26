@@ -74,6 +74,7 @@
     width: 250px;
 }
 
+.audio-dropdown,
 .colour-dropdown {
     display: flex;
     flex-direction: row;
@@ -84,10 +85,21 @@
     padding: 6px;
 }
 
+.audiobtn {
+    width: 250px;
+}
+
+.audio-content {
+    padding: 8px;
+    width: 250px;
+}
+
+.audio-container,
 .colour-container {
     display: flex;
 }
 
+.dropdown .audio-option,
 .dropdown .colour-option {
     background-color: transparent;
     border: none;
@@ -98,6 +110,10 @@
     padding-left: 4px;
     text-align: left;
     width: 90px;
+}
+
+.dropdown .audio-option {
+    width: auto;
 }
 
 #timeContainer {

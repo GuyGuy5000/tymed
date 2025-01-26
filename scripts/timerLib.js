@@ -113,6 +113,7 @@ class timerUI {
     this.delayInterval = delayInterval;
     this.containerDiv = containerDiv;
     this.containerDiv.style.position = "relative";
+    this.audio = new Audio(audioFile);
     //create HTML
     this.titleContainer = `<h1 id="${timer.id}title">${timer.title}</h1>`;
     this.timeContainer = `<h2 id="${timer.id}time">${timer.toString()}</h2>`;
@@ -123,14 +124,12 @@ class timerUI {
     this.snoozeButton = `<button id="${timer.id}snooze" hidden>Snooze</button>`;
     this.dismissButton = `<button id="${timer.id}dismiss" hidden>Dismiss</button>`;
     this.buttonContainer = `<div id="${timer.id}btn">${this.addButton} ${this.pauseButton} ${this.resetButton} ${this.snoozeButton} ${this.dismissButton}</div>`;
-    if (audioFile != null)
-      this.audio = `<audio src="${audioFile}" id="${timer.id}audio" hidden></audio>`;
+
     //set html
     this.containerDiv.innerHTML = `${this.closeButton}
                                     ${this.titleContainer}
                                     ${this.timeContainer} 
-                                    ${this.buttonContainer}
-                                    ${this.audio ? this.audio : ""}`;
+                                    ${this.buttonContainer}`;
     //retrieve HTML elements
     this.titleContainer = document.getElementById(`${timer.id}title`);
     this.timeContainer = document.getElementById(`${timer.id}time`);
@@ -142,16 +141,13 @@ class timerUI {
     this.dismissButton = document.getElementById(`${timer.id}dismiss`);
     this.buttonContainer = document.getElementById(`${timer.id}btn`);
 
-    //audio
-    if (audioFile != null)
-      this.audio = document.getElementById(`${timer.id}audio`);
-
     //set bg colour
     if (bgColour != null)
       this.containerDiv.style.backgroundColor = `var(--${bgColour})`;
 
     //set event listeners
     this.closeButton.addEventListener("click", () => {
+      if (this.audio.src != null) this.audio.pause();
       this.timer.StopTimer();
       this.containerDiv.outerHTML = null;
     });
@@ -188,7 +184,7 @@ class timerUI {
       this.dismissButton.hidden = true;
       this.pauseButton.innerHTML = "Pause";
       this.titleContainer.innerHTML = this.timer.title;
-      if (this.audio != null) this.audio.pause();
+      if (this.audio.src != null) this.audio.load();
     });
 
     this.dismissButton.addEventListener("click", () => {
@@ -199,7 +195,7 @@ class timerUI {
       this.snoozeButton.hidden = true;
       this.dismissButton.hidden = true;
       this.titleContainer.innerHTML = this.timer.title;
-      if (this.audio != null) this.audio.pause();
+      if (this.audio.src != null) this.audio.load();
     });
   }
 
@@ -231,7 +227,8 @@ class timerUI {
     this.dismissButton.hidden = false;
     if (this.timer.message)
       this.titleContainer.innerHTML = this.timer.message;
-    if (this.audio != null) this.audio.play();
+    console.log(this.audio);
+    if (!this.audio.src.endsWith("/null")) this.audio.play();
   }
 }
 

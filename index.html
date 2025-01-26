@@ -17,7 +17,7 @@
 <body>
   <main>
     <div id="timerForm" class="timer-form">
-      <button id="btnAddTimer" class="btn-add-timer">
+      <button type="button" id="btnAddTimer" class="btn-add-timer">
         Set A Timer<i class="fa-solid fa-circle-plus"></i>
       </button>
       <input id="txtName" type="text" placeholder="Timer Name" hidden>
@@ -58,8 +58,25 @@
           </ul>
         </div>
       </div>
+      <div id="cboAudio" class="dropdown">
+        <button id="btnAudio" class="dropdownbtn audiobtn">Alarm Sounds <i class="nav-arrow"></i></button>
+        <ul class="dropdown-content audio-content">
+          <li class="audio-container">
+            <input name="cboAudio" id="noSound" type="button" value="No Sound" data-audio="noSound"
+              class="audio-option">
+          </li>
+          <li class="audio-container">
+            <input name="cboAudio" id="sound1" type="button" value="Detective Work" data-audio="detective-work.mp3"
+              class="audio-option">
+          </li>
+          <li class="audio-container">
+            <input name="cboAudio" id="sound2" type="button" value="Diesel.ogg" data-audio="diesel-ogg.mp3"
+              class="audio-option">
+          </li>
+        </ul>
+      </div>
       <textarea id="txtMessage" placeholder="Alarm Message" hidden></textarea>
-      <input id="btnStart" type="button" value="Add" hidden>
+      <button id="btnStart" type="button" hidden>Add</button>
     </div>
 
     <div id="timerArrayContainer" class="flex-container timer-list-container">

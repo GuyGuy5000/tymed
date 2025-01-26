@@ -146,7 +146,7 @@ button:hover {
   display: block;
   width: 220px;
   position: absolute;
-  top: -1000px;
+  top: -3000px;
   right: 0;
   transition: none;
   z-index: 1;

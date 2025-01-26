@@ -15,6 +15,12 @@ let btnColour = document.getElementById("btnColour");
 let selectedColour = "white";
 let colourOptions = document.querySelectorAll('input[name="cboColour"]');
 
+let cboAudio = document.getElementById("cboAudio");
+let btnAudio = document.getElementById("btnAudio");
+let selectedAudio = new Audio();
+selectedAudio.loop = true;
+let audioOptions = document.querySelectorAll('input[name="cboAudio"]');
+
 let txtMessage = document.getElementById("txtMessage");
 let btnStart = document.getElementById("btnStart");
 
@@ -22,11 +28,19 @@ let btnStart = document.getElementById("btnStart");
 let timerArray = [];
 let timersContainer = document.getElementById("timerArrayContainer");
 
+//set sampleTime to an int to play audio for a timed duration
+var sampleTime = 0;
+setInterval(() => {
+  sampleTime -= 1;
+  if (sampleTime <= 0) selectedAudio.pause();
+}, 1000);
+
 btnAdd.addEventListener("click", () => {
   btnAdd.style.display = "none";
   txtName.style.display = "block";
   timeContainer.style.display = "block";
   cboColour.style.display = "block";
+  cboAudio.style.display = "block";
   txtMessage.style.display = "block";
   btnStart.style.display = "block";
 });
@@ -51,7 +65,7 @@ btnStart.addEventListener("click", () => {
   innerDiv.id = `${t.id}${timerArray.length}`;
   timersContainer.appendChild(innerDiv);
   //create UI
-  tUI = new timerUI(t, innerDiv, 5, selectedColour, null);
+  tUI = new timerUI(t, innerDiv, 5, selectedColour, selectedAudio.src);
   tUI.SetSecondaryButtonClass("btn-warning");
   t.addEventListener("done", () => {
     tUI.OnDone();
@@ -65,6 +79,8 @@ btnStart.addEventListener("click", () => {
   txtSeconds.value = "00";
   btnColour.innerHTML = `Colour <i class="nav-arrow"></i>`;
   selectedColour = "white";
+  btnAudio.innerHTML = `Alarm Sounds <i class="nav-arrow"></i>`;
+  selectedAudio.src = null;
   txtMessage.value = "";
   timerForm.style.height = "50vh";
 
@@ -72,6 +88,7 @@ btnStart.addEventListener("click", () => {
   txtName.style.display = "none";
   timeContainer.style.display = "none";
   cboColour.style.display = "none";
+  cboAudio.style.display = "none";
   txtMessage.style.display = "none";
   btnStart.style.display = "none";
   timerForm.style.backgroundColor = `transparent`;
@@ -83,6 +100,21 @@ colourOptions.forEach((colourNode) => {
     selectedColour = colourNode.value.toLowerCase();
     btnColour.innerHTML = `${selectedColour} <i class="nav-arrow"></i>`;
     timerForm.style.backgroundColor = `var(--${selectedColour})`;
+  });
+});
+
+//select audio event
+audioOptions.forEach((audioNode) => {
+  audioNode.addEventListener("click", async () => {
+    if (audioNode.dataset.audio == "noSound") {
+      btnAudio.innerHTML = `No Sound <i class="nav-arrow"></i>`;
+      selectedAudio.src = null;
+    } else {
+      selectedAudio.src = "/audio/" + audioNode.dataset.audio.toLowerCase();
+      btnAudio.innerHTML = `${audioNode.value} <i class="nav-arrow"></i>`;
+      selectedAudio.play();
+      sampleTime = 4;
+    }
   });
 });
 
@@ -131,4 +163,8 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
   }
 
   return true;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

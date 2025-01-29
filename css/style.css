@@ -113,7 +113,9 @@
 }
 
 .dropdown .audio-option {
-    width: auto;
+    border-bottom: 1px solid var(--black);
+    padding: 8px 0px;
+    width: 100%;
 }
 
 #timeContainer {

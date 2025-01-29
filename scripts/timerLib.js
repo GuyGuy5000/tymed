@@ -114,6 +114,7 @@ class timerUI {
     this.containerDiv = containerDiv;
     this.containerDiv.style.position = "relative";
     this.audio = new Audio(audioFile);
+    this.audio.loop = true;
     //create HTML
     this.titleContainer = `<h1 id="${timer.id}title">${timer.title}</h1>`;
     this.timeContainer = `<h2 id="${timer.id}time">${timer.toString()}</h2>`;

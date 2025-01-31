@@ -228,7 +228,6 @@ class timerUI {
     this.dismissButton.hidden = false;
     if (this.timer.message)
       this.titleContainer.innerHTML = this.timer.message;
-    console.log(this.audio);
     if (!this.audio.src.endsWith("/null")) this.audio.play();
   }
 }

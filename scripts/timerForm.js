@@ -1,6 +1,6 @@
 //new timer form
-let timerForm = document.getElementById("timerForm");
-timerForm.style.height = "100vh";
+var timerForm = document.getElementById("timerForm");
+timerForm.style.minHeight = "100vh";
 
 let btnAdd = document.getElementById("btnAddTimer");
 let txtName = document.getElementById("txtName");
@@ -17,7 +17,7 @@ let colourOptions = document.querySelectorAll('input[name="cboColour"]');
 
 let cboAudio = document.getElementById("cboAudio");
 let btnAudio = document.getElementById("btnAudio");
-let selectedAudio = new Audio();
+let selectedAudio = new Audio("");
 selectedAudio.loop = true;
 let audioOptions = document.querySelectorAll('input[name="cboAudio"]');
 
@@ -25,8 +25,8 @@ let txtMessage = document.getElementById("txtMessage");
 let btnStart = document.getElementById("btnStart");
 
 //timer array
-let timerArray = [];
-let timersContainer = document.getElementById("timerArrayContainer");
+var timerArray = [];
+var timersContainer = document.getElementById("timerArrayContainer");
 
 //set sampleTime to an int to play audio for a timed duration
 var sampleTime = 0;
@@ -51,7 +51,7 @@ btnStart.addEventListener("click", () => {
   if (!validateTimer(txtName, txtHours, txtMinutes, txtSeconds)) return;
 
   //create timer
-  t = new timer(
+  let t = new timer(
     parseInt(txtHours.value),
     parseInt(txtMinutes.value),
     parseInt(txtSeconds.value),
@@ -65,11 +65,27 @@ btnStart.addEventListener("click", () => {
   innerDiv.id = `${t.id}${timerArray.length}`;
   timersContainer.appendChild(innerDiv);
   //create UI
-  tUI = new timerUI(t, innerDiv, 5, selectedColour, selectedAudio.src);
+  let tUI = new timerUI(
+    t,
+    innerDiv,
+    5,
+    selectedColour,
+    selectedAudio.src != "" && selectedAudio.src != "noSound"
+      ? selectedAudio.src
+      : null
+  );
   tUI.SetSecondaryButtonClass("btn-warning");
   t.addEventListener("done", () => {
     tUI.OnDone();
   });
+
+  if (isListView) {
+    innerDiv.style.minWidth = "100%";
+    innerDiv.style.minHeight = "auto";
+    innerDiv.style.flexDirection = "row";
+    innerDiv.style.gap = "48px";
+  }
+
   //add timer to list
   timerArray.push(tUI);
 
@@ -82,7 +98,7 @@ btnStart.addEventListener("click", () => {
   btnAudio.innerHTML = `Alarm Sounds <i class="nav-arrow"></i>`;
   selectedAudio.src = null;
   txtMessage.value = "";
-  timerForm.style.height = "50vh";
+  timerForm.style.minHeight = "50vh";
 
   btnAdd.style.display = "flex";
   txtName.style.display = "none";

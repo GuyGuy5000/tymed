@@ -15,6 +15,23 @@
 </head>
 
 <body>
+  <button id="btnControls" class="controls-btn"><i class="fa-solid fa-sliders"></i>&ThickSpace;
+    <span>Controls</span></button>
+  <ul id="controlsContainer" class="controls-container">
+    <li>
+      <button id="btnListView"><i class="fa-solid fa-list"></i> Switch to List View</button>
+    </li>
+    <li>
+      <button id="btnReset"><i class="fa-solid fa-arrow-rotate-right"></i> Reset All Timers</button>
+    </li>
+    <li>
+      <button id="btnClear"><i class="fa-solid fa-x"></i> Clear All Timers</button>
+    </li>
+    <li>
+      <button id="btnHelp"><i class="fa-solid fa-circle-info"></i> Help</button>
+
+    </li>
+  </ul>
   <main>
     <div id="timerForm" class="timer-form">
       <button type="button" id="btnAddTimer" class="btn-add-timer">
@@ -86,6 +103,7 @@
     </div>
   </main>
   <!--scripts-->
+  <script src="scripts/controls.js"></script>
   <script src="scripts/timerLib.js"></script>
   <script src="scripts/timerForm.js"></script>
 </body>

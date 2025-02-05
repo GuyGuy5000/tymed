@@ -19,17 +19,24 @@
     <span>Controls</span></button>
   <ul id="controlsContainer" class="controls-container">
     <li>
-      <button id="btnListView"><i class="fa-solid fa-list"></i> Switch to List View</button>
+      <button name="btnControls" id="btnListView"><i class="fa-solid fa-list"></i> Switch to List View</button>
     </li>
     <li>
-      <button id="btnReset"><i class="fa-solid fa-arrow-rotate-right"></i> Reset All Timers</button>
+      <button name="btnControls" id="btnReset"><i class="fa-solid fa-arrow-rotate-right"></i> Reset All Timers</button>
     </li>
     <li>
-      <button id="btnClear"><i class="fa-solid fa-x"></i> Clear All Timers</button>
+      <button name="btnControls" id="btnClear"><i class="fa-solid fa-x"></i> Clear All Timers</button>
     </li>
     <li>
-      <button id="btnHelp"><i class="fa-solid fa-circle-info"></i> Help</button>
-
+      <button name="btnControls" id="btnHelp"><i class="fa-solid fa-circle-info"></i> Help</button>
+    </li>
+    <li class="add-minutes-container">
+      <label for="txt"><i class="fa-solid fa-plus-minus"></i>&nbsp; Snooze button adds:</label>
+      <div class="flex-container" style="flex-direction: row; gap: 12px;">
+        <input name="btnControls" id="btnMinusMinute" type="button" value="-1">
+        <h4 id="lblTimerDelay"></h4>
+        <input name="btnControls" id="btnPlusMinute" type="button" value="+1">
+      </div>
     </li>
   </ul>
   <main>

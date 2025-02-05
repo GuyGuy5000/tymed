@@ -68,7 +68,7 @@ btnStart.addEventListener("click", () => {
   let tUI = new timerUI(
     t,
     innerDiv,
-    5,
+    timerDelay,
     selectedColour,
     selectedAudio.src != "" && selectedAudio.src != "noSound"
       ? selectedAudio.src

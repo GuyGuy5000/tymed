@@ -219,6 +219,16 @@ class timerUI {
     this.snoozeButton.classList.add(classString);
   }
 
+  RenderTimer() {
+    this.addButton.innerHTML = "+" + this.delayInterval;
+    if (
+      this.timer.hours >= 0 ||
+      this.timer.minutes >= 0 ||
+      this.timer.seconds >= 0
+    )
+      this.timeContainer.innerHTML = this.timer.toString();
+  }
+
   OnDone() {
     this.pauseButton.innerHTML = "Start";
     this.addButton.hidden = true;
@@ -226,8 +236,7 @@ class timerUI {
     this.pauseButton.hidden = true;
     this.snoozeButton.hidden = false;
     this.dismissButton.hidden = false;
-    if (this.timer.message)
-      this.titleContainer.innerHTML = this.timer.message;
+    if (this.timer.message) this.titleContainer.innerHTML = this.timer.message;
     if (!this.audio.src.endsWith("/null")) this.audio.play();
   }
 }

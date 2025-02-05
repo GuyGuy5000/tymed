@@ -9,18 +9,41 @@ let btnReset = document.getElementById("btnReset");
 let btnClear = document.getElementById("btnClear");
 let btnHelp = document.getElementById("btnHelp");
 
+let btnMinusMinute = document.getElementById("btnMinusMinute");
+let lblTimerDelay = document.getElementById("lblTimerDelay");
+let btnPlusMinute = document.getElementById("btnPlusMinute");
+var timerDelay = 5;
+lblTimerDelay.innerHTML = "+" + timerDelay;
+
+document.querySelectorAll('[name="btnControls"]').forEach(btn => {
+  btn.tabIndex = -1;
+});
+//toggle controls panel
 btnControls.addEventListener("click", () => {
   if (!isOpen) {
     controlsContainer.style.left = 0;
     btnControls.style.borderRadius = "0";
+    document.querySelectorAll('[name="btnControls"]').forEach(btn => {
+      btn.tabIndex = 0;
+    });
     isOpen = true;
   } else {
-    controlsContainer.style.left = "-284px";
-    btnControls.style.borderRadius = "0 0 16px 0";
+    //window size is less than 441px wide
+    if (window.innerWidth <= 440) {
+      controlsContainer.style.left = "-100%";
+      btnControls.style.borderRadius = "0";
+    } else {
+      controlsContainer.style.left = "-284px";
+      btnControls.style.borderRadius = "0 0 16px 0";
+    }
+    document.querySelectorAll('[name="btnControls"]').forEach(btn => {
+      btn.tabIndex = -1;
+    });
     isOpen = false;
   }
 });
 
+//list view
 btnListView.addEventListener("click", () => {
   if (!isListView) {
     btnListView.innerHTML =
@@ -46,19 +69,44 @@ btnListView.addEventListener("click", () => {
   }
 });
 
+//reset
 btnReset.addEventListener("click", () => {
   document.querySelectorAll(".btn-warning").forEach((btn) => {
     btn.click();
   });
 });
 
+//clear
 btnClear.addEventListener("click", () => {
   timerArray = [];
   timersContainer.innerHTML = "";
   timerForm.style.minHeight = "100vh";
 });
 
-
+//help
 btnHelp.addEventListener("click", () => {
   btnHelp.innerHTML = '<i class="fa-solid fa-circle-info"></i> Coming soon!';
 });
+
+//increase timer delay
+btnPlusMinute.addEventListener("click", () => {
+  timerDelay += 1;
+  updateTimerDelay();
+});
+
+//decrease timer delay
+btnMinusMinute.addEventListener("click", () => {
+  if (timerDelay >= 2) {
+    timerDelay -= 1;
+    updateTimerDelay();
+  }
+});
+
+function updateTimerDelay() {
+  lblTimerDelay.innerHTML = "+" + timerDelay;
+
+  timerArray.forEach((timerUI) => {
+    timerUI.delayInterval = timerDelay;
+    timerUI.RenderTimer();
+  });
+}

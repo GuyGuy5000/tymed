@@ -28,6 +28,46 @@ let btnStart = document.getElementById("btnStart");
 var timerArray = [];
 var timersContainer = document.getElementById("timerArrayContainer");
 
+//used to track timers that were paused on blur
+var startBlur = null;
+var endBlur = null;
+var pausedTimers = [];
+//on blur
+addEventListener("blur", () => {
+  startBlur = new Date();
+  timerArray.forEach((timerUI) => {
+    if (!timerUI.timer.isPaused) {
+      timerUI.timer.StopTimer();
+      pausedTimers.push(timerUI);
+    }
+  });
+});
+
+//on focus
+addEventListener("focus", () => {
+  endBlur = new Date();
+  let diff = endBlur - startBlur;
+  console.log(diff);
+  pausedTimers.forEach((timerUI) => {
+    let now = new Date().getTime();
+    let end = new Date();
+    //add time
+    end.setHours(
+      timerUI.timer.hours + end.getHours(),
+      timerUI.timer.minutes + end.getMinutes(),
+      timerUI.timer.seconds + end.getSeconds(),
+      0
+    );
+    let time = end.getTime() - now - diff;
+    timerUI.timer.hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    timerUI.timer.minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+    timerUI.timer.seconds = Math.floor((time % (1000 * 60)) / 1000);
+
+    timerUI.timer.StartTimer(timerUI.timeContainer);
+    pausedTimers.splice(pausedTimers.indexOf(timerUI), 1);
+  });
+});
+
 //set sampleTime to an int to play audio for a timed duration
 var sampleTime = 0;
 setInterval(() => {

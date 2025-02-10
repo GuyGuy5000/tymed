@@ -39,13 +39,14 @@ class timer {
   }
 
   TickTimer(div) {
-    let now = new Date().getTime();
-    let end = new Date();
+    //arbitrary time so that a constant is used
+    let now = new Date(1999, 12, 0, 0, 0, 0);
+    let end = new Date(now);
     //add time
     end.setHours(
       this.hours + end.getHours(),
       this.minutes + end.getMinutes(),
-      this.seconds + end.getSeconds(),
+      this.seconds - 1 + end.getSeconds(),
       0
     );
     let diff = end.getTime() - now;
@@ -60,13 +61,11 @@ class timer {
       if (this.callback != null) this.callback();
       else {
         this.StopTimer();
-        alert(this.title + "is done!");
+        alert(this.title + " is done!");
         this.ResetTimer();
       }
-
       return;
     }
-
     //display timer
     div.innerHTML = this.toString();
   }

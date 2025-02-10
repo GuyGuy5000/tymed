@@ -42,7 +42,6 @@ addEventListener("blur", () => {
     }
   });
 });
-
 //on focus
 addEventListener("focus", () => {
   endBlur = new Date();
@@ -59,12 +58,14 @@ addEventListener("focus", () => {
       0
     );
     let time = end.getTime() - now - diff;
-    timerUI.timer.hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    timerUI.timer.hours = Math.floor(
+      (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     timerUI.timer.minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
     timerUI.timer.seconds = Math.floor((time % (1000 * 60)) / 1000);
 
     timerUI.timer.StartTimer(timerUI.timeContainer);
-    pausedTimers.splice(pausedTimers.indexOf(timerUI), 1);
+    pausedTimers = pausedTimers.filter(t => t != timerUI);
   });
 });
 
@@ -224,3 +225,15 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+txtHours.addEventListener("focus", () => {
+  txtHours.value = "";
+});
+
+txtMinutes.addEventListener("focus", () => {
+  txtMinutes.value = "";
+});
+
+txtSeconds.addEventListener("focus", () => {
+  txtSeconds.value = "";
+});

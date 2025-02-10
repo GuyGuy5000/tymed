@@ -55,6 +55,9 @@ class timer {
     this.minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     this.seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
+    //display timer
+    div.innerHTML = this.toString();
+
     //if difference is less than 0, time is up
     if (diff <= 0) {
       clearInterval(this.intervalID);
@@ -66,8 +69,6 @@ class timer {
       }
       return;
     }
-    //display timer
-    div.innerHTML = this.toString();
   }
 
   ResetTimer(div) {
@@ -118,7 +119,7 @@ class timerUI {
     this.titleContainer = `<h1 id="${timer.id}title">${timer.title}</h1>`;
     this.timeContainer = `<h2 id="${timer.id}time">${timer.toString()}</h2>`;
     this.closeButton = `<button id="${timer.id}close" style="background:none; border:none; position: absolute; top:16px; right:16px;">X</button>`;
-    this.addButton = `<button id="${timer.id}add">+${delayInterval}</button>`;
+    this.addButton = `<button id="${timer.id}add">+${delayInterval}m</button>`;
     this.pauseButton = `<button id="${timer.id}pause">Start</button>`;
     this.resetButton = `<button id="${timer.id}reset">Reset</button>`;
     this.snoozeButton = `<button id="${timer.id}snooze" hidden>Snooze</button>`;
@@ -219,7 +220,7 @@ class timerUI {
   }
 
   RenderTimer() {
-    this.addButton.innerHTML = "+" + this.delayInterval;
+    this.addButton.innerHTML = "+" + this.delayInterval + "m";
     if (
       this.timer.hours >= 0 ||
       this.timer.minutes >= 0 ||

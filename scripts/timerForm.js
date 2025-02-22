@@ -24,58 +24,84 @@ let audioOptions = document.querySelectorAll('input[name="cboAudio"]');
 let txtMessage = document.getElementById("txtMessage");
 let btnStart = document.getElementById("btnStart");
 
-//timer array
+//timer array used to hold all timerUI objects and container divs
 var timerArray = [];
 var timersContainer = document.getElementById("timerArrayContainer");
 
-//used to track timers that were paused on blur
+//used to track timers that are paused on blur 
+//this reduces all timer intervals into one check to 
+//run more efficiently in the background
 var startBlur = null;
-var endBlur = null;
+var blurInterval = null;
 var pausedTimers = [];
-//on blur
+
+//on window blur (lost focus)
 addEventListener("blur", () => {
+  //track initial time of blur
   startBlur = new Date();
+  //pause all actively running timers
   timerArray.forEach((timerUI) => {
     if (!timerUI.timer.isPaused) {
       timerUI.timer.StopTimer();
       pausedTimers.push(timerUI);
     }
   });
+  //set one function to check all timers that should be running
+  blurInterval = setInterval(() => {
+    pausedTimers.forEach((timerUI) => {
+      //if timer is done, set to 1 second and unpause
+      if (checkTimer(startBlur, timerUI)) {
+        timerUI.timer.hours = 0;
+        timerUI.timer.minutes = 0;
+        timerUI.timer.seconds = 1;
+        timerUI.timer.StartTimer(timerUI.timeContainer);
+        pausedTimers = pausedTimers.filter((t) => t != timerUI);
+      }
+    });
+  }, 1000);
 });
-//on focus
-addEventListener("focus", () => {
-  endBlur = new Date();
-  let diff = endBlur - startBlur;
-  console.log(diff);
-  pausedTimers.forEach((timerUI) => {
-    let now = new Date().getTime();
-    let end = new Date();
-    //add time
-    end.setHours(
-      timerUI.timer.hours + end.getHours(),
-      timerUI.timer.minutes + end.getMinutes(),
-      timerUI.timer.seconds + end.getSeconds(),
-      0
-    );
-    let time = end.getTime() - now - diff;
-    timerUI.timer.hours = Math.floor(
-      (time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    timerUI.timer.minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-    timerUI.timer.seconds = Math.floor((time % (1000 * 60)) / 1000);
 
-    timerUI.timer.StartTimer(timerUI.timeContainer);
-    pausedTimers = pausedTimers.filter(t => t != timerUI);
+//on window focus
+addEventListener("focus", () => {
+  clearInterval(blurInterval); //remove check interval
+  pausedTimers.forEach((timerUI) => {
+      //if timer is done, set to 1 second and unpause
+    if (checkTimer(startBlur, timerUI)) {
+      timerUI.timer.hours = 0;
+      timerUI.timer.minutes = 0;
+      timerUI.timer.seconds = 1;
+      timerUI.timer.StartTimer(timerUI.timeContainer);
+      pausedTimers = pausedTimers.filter((t) => t != timerUI);
+    } else { //else calculate time paused and subtract from timers
+      let checkTime = new Date();
+      let diff = checkTime - startBlur;
+
+      let now = new Date().getTime();
+      let end = new Date();
+      //add time based on when the timer should be done
+      end.setHours(
+        timerUI.timer.hours + end.getHours(),
+        timerUI.timer.minutes + end.getMinutes(),
+        timerUI.timer.seconds + end.getSeconds(),
+        0
+      );
+      let time = end.getTime() - now - diff;
+      //set timer to correct time and unpause
+      timerUI.timer.hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      timerUI.timer.minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+      timerUI.timer.seconds = Math.floor((time % (1000 * 60)) / 1000);
+      timerUI.timer.StartTimer(timerUI.timeContainer);
+      pausedTimers = pausedTimers.filter((t) => t != timerUI);
+    }
   });
 });
-
-//set sampleTime to an int to play audio for a timed duration
+//to play audio samples, set sampleTime to an int to play for a timed duration
 var sampleTime = 0;
 setInterval(() => {
   sampleTime -= 1;
   if (sampleTime <= 0) selectedAudio.pause();
 }, 1000);
-
+//show timer form
 btnAdd.addEventListener("click", () => {
   btnAdd.style.display = "none";
   txtName.style.display = "block";
@@ -90,7 +116,6 @@ btnAdd.addEventListener("click", () => {
 btnStart.addEventListener("click", () => {
   //validation
   if (!validateTimer(txtName, txtHours, txtMinutes, txtSeconds)) return;
-
   //create timer
   let t = new timer(
     parseInt(txtHours.value),
@@ -111,25 +136,20 @@ btnStart.addEventListener("click", () => {
     innerDiv,
     timerDelay,
     selectedColour,
-    selectedAudio.src != "" && selectedAudio.src != "noSound"
-      ? selectedAudio.src
-      : null
+    selectedAudio.src != "" && selectedAudio.src != "noSound" ? selectedAudio.src : null
   );
   tUI.SetSecondaryButtonClass("btn-warning");
-  t.addEventListener("done", () => {
-    tUI.OnDone();
-  });
-
+  t.addEventListener("done", () => { tUI.OnDone(); });
+  
   if (isListView) {
     innerDiv.style.minWidth = "100%";
     innerDiv.style.minHeight = "auto";
     innerDiv.style.flexDirection = "row";
     innerDiv.style.gap = "48px";
   }
-
   //add timer to list
   timerArray.push(tUI);
-
+  //reset timer form
   txtName.value = "";
   txtHours.value = "00";
   txtMinutes.value = "05";
@@ -140,7 +160,6 @@ btnStart.addEventListener("click", () => {
   selectedAudio.src = null;
   txtMessage.value = "";
   timerForm.style.minHeight = "50vh";
-
   btnAdd.style.display = "flex";
   txtName.style.display = "none";
   timeContainer.style.display = "none";
@@ -188,7 +207,6 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
     titleInput.classList.remove("invalid-control");
     titleInput.placeholder = "Timer Name";
   }
-
   //hours
   let hours = parseInt(hoursInput.value);
   if (!hoursInput.value || !isValid(hours)) {
@@ -198,7 +216,6 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
   } else {
     hoursInput.classList.remove("invalid-control");
   }
-
   //minutes
   let minutes = parseInt(minutesInput.value);
   if (!minutesInput.value || !isValid(minutes)) {
@@ -208,7 +225,6 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
   } else {
     minutesInput.classList.remove("invalid-control");
   }
-
   //seconds
   let seconds = parseInt(secondsInput.value);
   if (!secondsInput.value || !isValid(seconds)) {
@@ -222,6 +238,7 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
   return true;
 }
 
+//repetitive actions
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -237,3 +254,21 @@ txtMinutes.addEventListener("focus", () => {
 txtSeconds.addEventListener("focus", () => {
   txtSeconds.value = "";
 });
+//checks a timer based on a given start time and returns true if timer should be done, otherwise returns false
+function checkTimer(startTime, timerUI) {
+  let checkTime = new Date();
+  let diff = checkTime - startTime;
+
+  let now = new Date().getTime();
+  let end = new Date();
+  //add time based on when the timer should be done
+  end.setHours(
+    timerUI.timer.hours + end.getHours(),
+    timerUI.timer.minutes + end.getMinutes(),
+    timerUI.timer.seconds + end.getSeconds(),
+    0
+  );
+
+  let time = end.getTime() - now - diff;
+  return time <= 0;
+}

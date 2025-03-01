@@ -23,6 +23,7 @@ let audioOptions = document.querySelectorAll('input[name="cboAudio"]');
 
 let txtMessage = document.getElementById("txtMessage");
 let btnStart = document.getElementById("btnStart");
+let btnCancel = document.getElementById("btnCancel");
 
 //timer array used to hold all timerUI objects and container divs
 var timerArray = [];
@@ -46,6 +47,7 @@ addEventListener("blur", () => {
       pausedTimers.push(timerUI);
     }
   });
+
   //set one function to check all timers that should be running
   blurInterval = setInterval(() => {
     pausedTimers.forEach((timerUI) => {
@@ -95,21 +97,22 @@ addEventListener("focus", () => {
     }
   });
 });
+
 //to play audio samples, set sampleTime to an int to play for a timed duration
 var sampleTime = 0;
 setInterval(() => {
   sampleTime -= 1;
   if (sampleTime <= 0) selectedAudio.pause();
 }, 1000);
+
 //show timer form
 btnAdd.addEventListener("click", () => {
-  btnAdd.style.display = "none";
-  txtName.style.display = "block";
-  timeContainer.style.display = "block";
-  cboColour.style.display = "block";
-  cboAudio.style.display = "block";
-  txtMessage.style.display = "block";
-  btnStart.style.display = "block";
+  showTimerForm();
+});
+
+//hide timer form
+btnCancel.addEventListener("click", () => {
+  hideTimerForm();
 });
 
 //add timer event
@@ -149,25 +152,9 @@ btnStart.addEventListener("click", () => {
   }
   //add timer to list
   timerArray.push(tUI);
+
   //reset timer form
-  txtName.value = "";
-  txtHours.value = "00";
-  txtMinutes.value = "05";
-  txtSeconds.value = "00";
-  btnColour.innerHTML = `Colour <i class="nav-arrow"></i>`;
-  selectedColour = "white";
-  btnAudio.innerHTML = `Alarm Sounds <i class="nav-arrow"></i>`;
-  selectedAudio.src = null;
-  txtMessage.value = "";
-  timerForm.style.minHeight = "50vh";
-  btnAdd.style.display = "flex";
-  txtName.style.display = "none";
-  timeContainer.style.display = "none";
-  cboColour.style.display = "none";
-  cboAudio.style.display = "none";
-  txtMessage.style.display = "none";
-  btnStart.style.display = "none";
-  timerForm.style.backgroundColor = `transparent`;
+  hideTimerForm();
 });
 
 //select colour event
@@ -241,6 +228,40 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
 //repetitive actions
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function showTimerForm() {
+  btnAdd.style.display = "none";
+  txtName.style.display = "block";
+  timeContainer.style.display = "block";
+  cboColour.style.display = "block";
+  cboAudio.style.display = "block";
+  txtMessage.style.display = "block";
+  btnStart.style.display = "block";
+  btnCancel.style.display = "block";
+}
+
+function hideTimerForm() {
+  txtName.value = "";
+  txtHours.value = "00";
+  txtMinutes.value = "05";
+  txtSeconds.value = "00";
+  btnColour.innerHTML = `Colour <i class="nav-arrow"></i>`;
+  selectedColour = "white";
+  btnAudio.innerHTML = `Alarm Sounds <i class="nav-arrow"></i>`;
+  selectedAudio.src = null;
+  txtMessage.value = "";
+  btnAdd.style.display = "flex";
+  txtName.style.display = "none";
+  timeContainer.style.display = "none";
+  cboColour.style.display = "none";
+  cboAudio.style.display = "none";
+  txtMessage.style.display = "none";
+  btnStart.style.display = "none";
+  btnCancel.style.display = "none";
+  timerForm.style.backgroundColor = `transparent`;
+  if (timerArray.length != 0)
+    timerForm.style.minHeight = "50vh";
 }
 
 txtHours.addEventListener("focus", () => {

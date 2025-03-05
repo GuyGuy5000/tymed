@@ -1,11 +1,12 @@
 :root {
   --black: #1c1c1c;
   --gray: #808080;
-  --white: #f2f2f2f2;
+  --white: #f2f2f2;
   --purple: #cc79e8;
-  --blue: #7a8ffa;
+  --blue: #0462fb;
+  --soft-blue: #7a8ffa;
   --paper: #fff8eb;
-  --red: #FF8A8A;
+  --red: #ff8a8a;
   --red-warning: #990000;
   --green: #6acf84;
   --yellow: #fcdb38;
@@ -91,7 +92,7 @@ button {
   cursor: pointer;
   font-size: 1.25rem;
   font-weight: 300;
-  padding: 0.8rem 1.6rem;
+  padding: 0.8rem 1.4rem;
 }
 
 button:hover {
@@ -110,7 +111,7 @@ button:hover {
 
 /* invalid control */
 .invalid-control {
-  border: 1px solid red;
+  border: 1px solid var(--red-warning);
 }
 
 /* custom dropdown */
@@ -126,7 +127,7 @@ button:hover {
 }
 
 .dropdownbtn {
-  background-color: #FFF;
+  background-color: #fff;
   color: var(--black);
   height: 40px;
   min-width: 112px;
@@ -141,7 +142,7 @@ button:hover {
 }
 
 .dropdown-content {
-  background-color: #FFF;
+  background-color: #fff;
   border-radius: 16px;
   display: block;
   width: 220px;

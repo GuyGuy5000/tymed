@@ -1,3 +1,4 @@
+/* Controls Menu */
 .controls-btn {
   background-color: var(--black);
   border-radius: 0 0 16px 0;
@@ -81,6 +82,77 @@
   color: var(--white);
 }
 
+/* Help Box */
+.help-icon {
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 100%;
+  cursor: pointer;
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  margin-top: 5px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 32px;
+  z-index: 101;
+}
+
+.icon {
+  color: var(--black);
+  font-size: 20px;
+}
+
+.help-box {
+  background-color: var(--white);
+  border: 3px solid var(--blue);
+  border-radius: 9px;
+  box-shadow: 0 0 1px var(--blue);
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  height: auto;
+  padding: 16px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  overflow: hidden;
+  width: 300px;
+  z-index: 102;
+}
+
+#nextBtn,
+#skipBtn {
+  background-color: var(--paper);
+  border-radius: 6px;
+  color: var(--black);
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.help-box .help-content p {
+  font-size: 16px;
+}
+
+.help-actions {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.context-help {
+  background-color: #38f;
+  color: #fff;
+  cursor: help;
+  display: inline;
+  padding: 1px 5px;
+  border-radius: 100%;
+}
+
+/* Timers Container */
 .timer-list-container {
   gap: 0px;
 }
@@ -101,6 +173,7 @@
   color: var(--white);
 }
 
+/* Timer Form */
 .timer-form {
   align-items: center;
   border-bottom: 2px solid var(--black);

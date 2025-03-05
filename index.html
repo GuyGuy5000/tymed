@@ -15,6 +15,18 @@
 </head>
 
 <body>
+  <!--Help Box-->
+  <div class="help-box" id="help-box">
+    <div class="help-content">
+      <p>This is where each page shows up.</p>
+    </div>
+    <div class="help-actions">
+      <label id="pageNum" style="margin-right: 10px">1/1</label>
+      <button id="skipBtn" tabindex="15">Skip</button>
+      <button id="nextBtn" tabindex="15">Next</button>
+    </div>
+  </div>
+
   <!--Controls panel-->
   <button id="btnControls" class="controls-btn"><i class="fa-solid fa-sliders"></i>&ThickSpace;
     <span>Controls</span></button>
@@ -29,7 +41,7 @@
       <button name="btnControls" id="btnClear"><i class="fa-solid fa-x"></i> Clear All Timers</button>
     </li>
     <li>
-      <button name="btnControls" id="btnHelp"><i class="fa-solid fa-circle-info"></i> Help</button>
+      <button name="btnControls" id="helpIcon" accesskey="h"><i class="fa-solid fa-circle-info"></i> Help</button>
     </li>
     <li class="add-minutes-container">
       <label for="txt"><i class="fa-solid fa-plus-minus"></i>&nbsp; Snooze button adds:</label>
@@ -40,7 +52,6 @@
       </div>
     </li>
   </ul>
-  <!--Controls panel-->
 
   <main>
     <!--Timer form-->
@@ -119,13 +130,22 @@
       </div>
     </div>
 
+    <!--Timers container-->
     <div id="timerArrayContainer" class="flex-container timer-list-container">
     </div>
   </main>
+  
   <!--scripts-->
   <script src="scripts/controls.js"></script>
   <script src="scripts/timerLib.js"></script>
   <script src="scripts/timerForm.js"></script>
+  <script src="scripts/help.js"></script>
+  <script>
+    GenerateContextHelp([
+      "Welcome to tymed! <br/><br/> The site for better time management and organization.<br/><br/>",
+      "You can set timers with different titles, colours, sounds, and alarm messages. In the controls panel, you'll find page-wide controls and options to enhance your experience.",
+      "You'll also find timer presets in the controls menu for water and strech breaks (W.I.P)! Along with these presets, you can also adjust how many minutes the snooze button adds to your timers."]);
+  </script>
 </body>
 
 </html>

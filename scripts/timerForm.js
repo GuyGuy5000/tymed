@@ -77,9 +77,9 @@ addEventListener("focus", () => {
     } else { //else calculate time paused and subtract from timers
       let checkTime = new Date();
       let diff = checkTime - startBlur;
-
       let now = new Date().getTime();
       let end = new Date();
+
       //add time based on when the timer should be done
       end.setHours(
         timerUI.timer.hours + end.getHours(),
@@ -87,6 +87,7 @@ addEventListener("focus", () => {
         timerUI.timer.seconds + end.getSeconds(),
         0
       );
+
       let time = end.getTime() - now - diff;
       //set timer to correct time and unpause
       timerUI.timer.hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -106,14 +107,10 @@ setInterval(() => {
 }, 1000);
 
 //show timer form
-btnAdd.addEventListener("click", () => {
-  showTimerForm();
-});
+btnAdd.addEventListener("click", () => { showTimerForm(); });
 
 //hide timer form
-btnCancel.addEventListener("click", () => {
-  hideTimerForm();
-});
+btnCancel.addEventListener("click", () => { hideTimerForm(); });
 
 //add timer event
 btnStart.addEventListener("click", () => {
@@ -141,7 +138,7 @@ btnStart.addEventListener("click", () => {
     selectedColour,
     selectedAudio.src != "" && selectedAudio.src != "noSound" ? selectedAudio.src : null
   );
-  tUI.SetSecondaryButtonClass("btn-warning");
+  tUI.SetSecondaryButtonClass("btn-warning"); // adds css class to reset and dismiss buttons
   t.addEventListener("done", () => { tUI.OnDone(); });
   
   if (isListView) {
@@ -160,28 +157,29 @@ btnStart.addEventListener("click", () => {
 //select colour event
 colourOptions.forEach((colourNode) => {
   colourNode.addEventListener("click", () => {
-    selectedColour = colourNode.value.toLowerCase();
-    btnColour.innerHTML = `${selectedColour} <i class="nav-arrow"></i>`;
-    timerForm.style.backgroundColor = `var(--${selectedColour})`;
+    selectedColour = colourNode.value.toLowerCase();                     //update
+    btnColour.innerHTML = `${selectedColour} <i class="nav-arrow"></i>`; //render
+    timerForm.style.backgroundColor = `var(--${selectedColour})`;        //and show selected colour
   });
 });
 
 //select audio event
 audioOptions.forEach((audioNode) => {
   audioNode.addEventListener("click", async () => {
+    //no sound to sample
     if (audioNode.dataset.audio == "noSound") {
       btnAudio.innerHTML = `No Sound <i class="nav-arrow"></i>`;
       selectedAudio.src = null;
     } else {
-      selectedAudio.src = "audio/" + audioNode.dataset.audio.toLowerCase();
-      btnAudio.innerHTML = `${audioNode.value} <i class="nav-arrow"></i>`;
-      selectedAudio.play();
+      selectedAudio.src = "audio/" + audioNode.dataset.audio.toLowerCase(); //update
+      btnAudio.innerHTML = `${audioNode.value} <i class="nav-arrow"></i>`;  //render
+      selectedAudio.play();                                                 //and play sample for 4 seconds
       sampleTime = 4;
     }
   });
 });
 
-//validates user input or highlights controls with wrong input
+//validates user input and highlights controls with wrong input
 function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
   const isValid = (n) => typeof n === "number" && !isNaN(n) && !(n < 0);
   //title
@@ -226,9 +224,9 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
 }
 
 //repetitive actions
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// function sleep(ms) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
 
 function showTimerForm() {
   btnAdd.style.display = "none";
@@ -264,24 +262,18 @@ function hideTimerForm() {
     timerForm.style.minHeight = "50vh";
 }
 
-txtHours.addEventListener("focus", () => {
-  txtHours.value = "";
-});
+//clear text on focus
+txtHours.addEventListener("focus", () => { txtHours.value = ""; });
+txtMinutes.addEventListener("focus", () => { txtMinutes.value = ""; });
+txtSeconds.addEventListener("focus", () => { txtSeconds.value = ""; });
 
-txtMinutes.addEventListener("focus", () => {
-  txtMinutes.value = "";
-});
-
-txtSeconds.addEventListener("focus", () => {
-  txtSeconds.value = "";
-});
 //checks a timer based on a given start time and returns true if timer should be done, otherwise returns false
 function checkTimer(startTime, timerUI) {
   let checkTime = new Date();
   let diff = checkTime - startTime;
-
   let now = new Date().getTime();
   let end = new Date();
+  
   //add time based on when the timer should be done
   end.setHours(
     timerUI.timer.hours + end.getHours(),

@@ -86,9 +86,10 @@ class timer {
   }
 
   toString() {
-    return `${("0" + this.hours).slice(-2)}:${("0" + this.minutes).slice(
-      -2
-    )}:${("0" + this.seconds).slice(-2)}`;
+    return `${
+        ("0" + this.hours).slice(-2)}:${
+        ("0" + this.minutes).slice(-2)}:${
+        ("0" + this.seconds).slice(-2)}`;
   }
 
   addEventListener(eventType, callback) {
@@ -102,10 +103,14 @@ class timer {
 //timer holds the timer object
 //delayInterval is the amount of minutes added to the timer when snoozing or adding time
 //containerDiv holds the title, timeContainer, and buttonContainer
-//titleContainer initiates to an h1 element with the timer title
+//titleContainer instantiates to an h1 element with the timer title
 //timeContainer holds the h2 element with the time remaining
+//closeButton is a button tag with a click event to delete the timer and clear ContainerDiv.innerHTML
 //pauseButton is a button tag with a click event to pause the timer and UI elements
 //resetButton is a button tag with a click event to reset the timer and UI elements
+//addButton is a button tag with a click event to add minutes to the timer based on delayInterval
+//snoozeButton is a button tag with a click event to add minutes to the timer based on delayInterval
+//dismissButton is a button tag with a click event to reset the timer and UI elements
 //buttonContainer is a div that holds both buttons inside of it
 class timerUI {
   constructor(timer, containerDiv, delayInterval, bgColour, audioFile) {
@@ -151,6 +156,7 @@ class timerUI {
       if (this.audio.src != null) this.audio.pause();
       this.timer.StopTimer();
       this.containerDiv.outerHTML = null;
+      this.timer = null;
     });
 
     this.addButton.addEventListener("click", () => {
@@ -240,28 +246,3 @@ class timerUI {
     if (!this.audio.src.endsWith("/null")) this.audio.play();
   }
 }
-
-//test code
-// let timerDiv = document.getElementById("timer");
-
-// let t = new timer(0, 0, 2, "timer 1", "Do a thing!");
-// t.addEventListener("done", () => {
-//   tUI.OnDone();
-//   alert("1 & done!");
-// });
-// let tUI = new timerUI(t, timerDiv, 5);
-// tUI.SetSecondaryButtonClass("btn-warning");
-// /////////////////////////////////////////////////
-
-// let timer2Div = document.getElementById("timer2");
-
-// let t2 = new timer(0, 0, 4, "timer 2", "Do another thing!");
-// t2.addEventListener("done 2", () => {
-//   tUI2.OnDone();
-// });
-// let tUI2 = new timerUI(t2, timer2Div, 5);
-// tUI2.SetSecondaryButtonClass("btn-warning");
-
-// function sleep(ms) {
-//   return new Promise((resolve) => setTimeout(resolve, ms));
-// }

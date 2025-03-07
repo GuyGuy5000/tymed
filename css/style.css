@@ -106,9 +106,9 @@
 
 .help-box {
   background-color: var(--white);
-  border: 3px solid var(--blue);
+  border: 3px solid var(--deep-blue);
   border-radius: 9px;
-  box-shadow: 0 0 1px var(--blue);
+  box-shadow: 0 0 1px var(--deep-blue);
   display: none;
   flex-direction: column;
   gap: 16px;
@@ -141,15 +141,6 @@
   flex-direction: row;
   gap: 8px;
   justify-content: flex-end;
-}
-
-.context-help {
-  background-color: #38f;
-  color: #fff;
-  cursor: help;
-  display: inline;
-  padding: 1px 5px;
-  border-radius: 100%;
 }
 
 /* Timers Container */

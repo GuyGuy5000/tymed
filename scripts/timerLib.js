@@ -123,7 +123,7 @@ class timerUI {
     //create HTML
     this.titleContainer = `<h1 id="${timer.id}title">${timer.title}</h1>`;
     this.timeContainer = `<h2 id="${timer.id}time">${timer.toString()}</h2>`;
-    this.closeButton = `<button id="${timer.id}close" style="background:none; border:none; position: absolute; top:16px; right:16px;">X</button>`;
+    this.closeButton = `<button id="${timer.id}close" style="background:none; border:none; position: absolute; top:8px; right:8px;">X</button>`;
     this.addButton = `<button id="${timer.id}add">+${delayInterval}m</button>`;
     this.pauseButton = `<button id="${timer.id}pause">Start</button>`;
     this.resetButton = `<button id="${timer.id}reset">Reset</button>`;

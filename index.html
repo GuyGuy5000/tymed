@@ -28,8 +28,9 @@
   </div>
 
   <!--Controls panel-->
-  <button id="btnControls" class="controls-btn"><i class="fa-solid fa-sliders"></i>&ThickSpace;
-    <span>Controls</span></button>
+  <button id="btnControls" class="controls-btn" tabindex="1">
+    <i class="fa-solid fa-sliders"></i>&ThickSpace;<span>Controls</span>
+  </button>
   <ul id="controlsContainer" class="controls-container">
     <li>
       <button name="btnControls" id="btnListView"><i class="fa-solid fa-list"></i> Switch to List View</button>
@@ -59,92 +60,101 @@
       <button type="button" id="btnAddTimer" class="btn-add-timer">
         Set A Timer<i class="fa-solid fa-circle-plus"></i>
       </button>
-      <!--Title-->
-      <input id="txtName" type="text" placeholder="Timer Name" hidden>
-      <!--time-->
-      <div class="flex-container">
-        <div id="timeContainer" hidden>
-          <input id="txtHours" class="time-input" type="text" placeholder="00" value="00" maxlength="2">:<input
-            id="txtMinutes" class="time-input" type="text" placeholder="00" value="05" maxlength="2">:<input
-            id="txtSeconds" class="time-input" type="text" placeholder="00" value="00" maxlength="2">
-          <i class="fa-regular fa-clock"></i>
+      <button id="btnLeft" class="preset-button" aria-label="left preset" tabindex="1" hidden>
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <div class="flex-container form-container">
+        <!--Title-->
+        <input id="txtName" type="text" placeholder="Timer Name" hidden>
+        <!--time-->
+        <div class="flex-container">
+          <div id="timeContainer" hidden>
+            <input id="txtHours" class="time-input" type="text" placeholder="00" value="00" maxlength="2">:<input
+              id="txtMinutes" class="time-input" type="text" placeholder="00" value="05" maxlength="2">:<input
+              id="txtSeconds" class="time-input" type="text" placeholder="00" value="00" maxlength="2">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+          <!--colour-->
+          <div id="cboColour" class="dropdown">
+            <button id="btnColour" class="dropdownbtn">Colour <i class="nav-arrow"></i></button>
+            <ul class="dropdown-content colour-dropdown">
+              <li class="colour-container">
+                <input name="cboColour" id="White" type="button" value="White" class="colour-option"
+                  style="border-left: 20px solid var(--white);">
+              </li>
+              <li class="colour-container">
+                <input name="cboColour" id="Red" type="button" value="Red" class="colour-option"
+                  style="border-left: 20px solid var(--red);">
+              </li>
+              <li class="colour-container">
+                <input name="cboColour" id="Blue" type="button" value="Blue" class="colour-option"
+                  style="border-left: 20px solid var(--blue);">
+              </li>
+              <li class="colour-container">
+                <input name="cboColour" id="Green" type="button" value="Green" class="colour-option"
+                  style="border-left: 20px solid var(--green);">
+              </li>
+              <li class="colour-container">
+                <input name="cboColour" id="Yellow" type="button" value="Yellow" class="colour-option"
+                  style="border-left: 20px solid var(--yellow);">
+              </li>
+              <li class="colour-container">
+                <input name="cboColour" id="Purple" type="button" value="Purple" class="colour-option"
+                  style="border-left: 20px solid var(--purple);">
+              </li>
+            </ul>
+          </div>
         </div>
-        <!--colour-->
-        <div id="cboColour" class="dropdown">
-          <button id="btnColour" class="dropdownbtn">Colour <i class="nav-arrow"></i></button>
-          <ul class="dropdown-content colour-dropdown">
-            <li class="colour-container">
-              <input name="cboColour" id="White" type="button" value="White" class="colour-option"
-                style="border-left: 20px solid var(--white);">
+        <!--audio-->
+        <div id="cboAudio" class="dropdown">
+          <button id="btnAudio" class="dropdownbtn audiobtn">Alarm Sounds <i class="nav-arrow"></i></button>
+          <ul class="dropdown-content audio-content">
+            <li class="audio-container">
+              <input name="cboAudio" id="noSound" type="button" value="No Sound" data-audio="noSound"
+                class="audio-option">
             </li>
-            <li class="colour-container">
-              <input name="cboColour" id="Red" type="button" value="Red" class="colour-option"
-                style="border-left: 20px solid var(--red);">
+            <li class="audio-container">
+              <input name="cboAudio" id="sound2" type="button" value="City Lights" data-audio="city-lights.mp3"
+                class="audio-option">
             </li>
-            <li class="colour-container">
-              <input name="cboColour" id="Blue" type="button" value="Blue" class="colour-option"
-                style="border-left: 20px solid var(--blue);">
+            <li class="audio-container">
+              <input name="cboAudio" id="sound2" type="button" value="Who Likes to Party"
+                data-audio="who-likes-to-party.mp3" class="audio-option">
             </li>
-            <li class="colour-container">
-              <input name="cboColour" id="Green" type="button" value="Green" class="colour-option"
-                style="border-left: 20px solid var(--green);">
-            </li>
-            <li class="colour-container">
-              <input name="cboColour" id="Yellow" type="button" value="Yellow" class="colour-option"
-                style="border-left: 20px solid var(--yellow);">
-            </li>
-            <li class="colour-container">
-              <input name="cboColour" id="Purple" type="button" value="Purple" class="colour-option"
-                style="border-left: 20px solid var(--purple);">
+            <li class="audio-container">
+              <input name="cboAudio" id="sound1" type="button" value="You!" data-audio="you.mp3" class="audio-option">
             </li>
           </ul>
         </div>
+        <!--message-->
+        <textarea id="txtMessage" placeholder="Alarm Message" hidden></textarea>
+        <!--clear and submit-->
+        <div class="flex-container">
+          <button id="btnCancel" type="button" hidden>Cancel</button>
+          <button id="btnStart" type="button" hidden>Add</button>
+        </div>
       </div>
-      <!--audio-->
-      <div id="cboAudio" class="dropdown">
-        <button id="btnAudio" class="dropdownbtn audiobtn">Alarm Sounds <i class="nav-arrow"></i></button>
-        <ul class="dropdown-content audio-content">
-          <li class="audio-container">
-            <input name="cboAudio" id="noSound" type="button" value="No Sound" data-audio="noSound"
-              class="audio-option">
-          </li>
-          <li class="audio-container">
-            <input name="cboAudio" id="sound2" type="button" value="City Lights" data-audio="city-lights.mp3"
-              class="audio-option">
-          </li>
-          <li class="audio-container">
-            <input name="cboAudio" id="sound2" type="button" value="Who Likes to Party"
-              data-audio="who-likes-to-party.mp3" class="audio-option">
-          </li>
-          <li class="audio-container">
-            <input name="cboAudio" id="sound1" type="button" value="You!" data-audio="you.mp3" class="audio-option">
-          </li>
-        </ul>
-      </div>
-      <!--message-->
-      <textarea id="txtMessage" placeholder="Alarm Message" hidden></textarea>
-      <!--clear and submit-->
-      <div class="flex-container">
-        <button id="btnCancel" type="button" hidden>Cancel</button>
-        <button id="btnStart" type="button" hidden>Add</button>
-      </div>
+      <button id="btnRight" class="preset-button" aria-label="right preset" tabindex="1" hidden>
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
 
     <!--Timers container-->
     <div id="timerArrayContainer" class="flex-container timer-list-container">
     </div>
   </main>
-  
+
   <!--scripts-->
-  <script src="scripts/controls.js"></script>
-  <script src="scripts/timerLib.js"></script>
-  <script src="scripts/timerForm.js"></script>
-  <script src="scripts/help.js"></script>
+  <script type="text/javascript" src="scripts/controls.js"></script>
+  <script type="text/javascript" src="scripts/timerLib.js"></script>
+  <script type="text/javascript" src="scripts/presets.js"></script>
+  <script type="text/javascript" src="scripts/timerForm.js"></script>
+  <script type="text/javascript" src="scripts/help.js"></script>
   <script>
     GenerateContextHelp([
       "Welcome to tymed! <br/><br/> The site for better time management and organization.<br/><br/>",
       "You can set timers with different titles, colours, sounds, and alarm messages. In the controls panel, you'll find page-wide controls and options to enhance your experience.",
-      "You'll also find timer presets in the controls menu for water and strech breaks (W.I.P)! Along with these presets, you can also adjust how many minutes the snooze button adds to your timers."]);
+      "You'll also find timer presets by pressing the left and right buttons while creating a timer. There is also a control for adjusting how many minutes the snooze button adds to your timers."]);
   </script>
 </body>
 

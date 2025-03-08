@@ -1,40 +1,55 @@
 //new timer form
 var timerForm = document.getElementById("timerForm");
 timerForm.style.minHeight = "100vh";
-
+//presets
+let btnLeft = document.getElementById("btnLeft");
+let btnRight = document.getElementById("btnRight");
+let currentPreset = 0;
+//big add button
 let btnAdd = document.getElementById("btnAddTimer");
+//big form elements
 let txtName = document.getElementById("txtName");
-
 let timeContainer = document.getElementById("timeContainer");
 let txtHours = document.getElementById("txtHours");
 let txtMinutes = document.getElementById("txtMinutes");
 let txtSeconds = document.getElementById("txtSeconds");
-
+//colour dropdown
 let cboColour = document.getElementById("cboColour");
 let btnColour = document.getElementById("btnColour");
 let selectedColour = "white";
 let colourOptions = document.querySelectorAll('input[name="cboColour"]');
-
+//audio dropdown
 let cboAudio = document.getElementById("cboAudio");
 let btnAudio = document.getElementById("btnAudio");
 let selectedAudio = new Audio("");
 selectedAudio.loop = true;
 let audioOptions = document.querySelectorAll('input[name="cboAudio"]');
-
+//message box
 let txtMessage = document.getElementById("txtMessage");
+//bottom form buttons
 let btnStart = document.getElementById("btnStart");
 let btnCancel = document.getElementById("btnCancel");
-
 //timer array used to hold all timerUI objects and container divs
 var timerArray = [];
 var timersContainer = document.getElementById("timerArrayContainer");
-
 //used to track timers that are paused on blur 
 //this reduces all timer intervals into one check to 
 //run more efficiently in the background
 var startBlur = null;
 var blurInterval = null;
 var pausedTimers = [];
+
+//change preset
+btnLeft.addEventListener("click", () => { 
+  currentPreset--;
+  if (currentPreset <= -1) currentPreset = timerPresets.length - 1;
+  setTimerPreset(timerPresets[currentPreset]);
+});
+btnRight.addEventListener("click", () => { 
+  currentPreset++;
+  if (currentPreset >= timerPresets.length) currentPreset = 0;
+  setTimerPreset(timerPresets[currentPreset]);
+});
 
 //on window blur (lost focus)
 addEventListener("blur", () => {
@@ -140,12 +155,17 @@ btnStart.addEventListener("click", () => {
   );
   tUI.SetSecondaryButtonClass("btn-warning"); // adds css class to reset and dismiss buttons
   t.addEventListener("done", () => { tUI.OnDone(); });
+  tUI.closeButton.addEventListener("click", () => { 
+    timerArray = timerArray.filter((t) => t != tUI);
+    pausedTimers = pausedTimers.filter((t) => t != tUI);
+  });
   
   if (isListView) {
     innerDiv.style.minWidth = "100%";
     innerDiv.style.minHeight = "auto";
     innerDiv.style.flexDirection = "row";
-    innerDiv.style.gap = "48px";
+    innerDiv.style.justifyContent = "space-between";
+    innerDiv.style.gap = "0";
   }
   //add timer to list
   timerArray.push(tUI);
@@ -230,6 +250,8 @@ function validateTimer(titleInput, hoursInput, minutesInput, secondsInput) {
 
 function showTimerForm() {
   btnAdd.style.display = "none";
+  btnRight.style.display = "block";
+  btnLeft.style.display = "block";
   txtName.style.display = "block";
   timeContainer.style.display = "block";
   cboColour.style.display = "block";
@@ -249,7 +271,11 @@ function hideTimerForm() {
   btnAudio.innerHTML = `Alarm Sounds <i class="nav-arrow"></i>`;
   selectedAudio.src = null;
   txtMessage.value = "";
+  currentPreset = 0;
+
   btnAdd.style.display = "flex";
+  btnRight.style.display = "none";
+  btnLeft.style.display = "none";
   txtName.style.display = "none";
   timeContainer.style.display = "none";
   cboColour.style.display = "none";
@@ -257,6 +283,7 @@ function hideTimerForm() {
   txtMessage.style.display = "none";
   btnStart.style.display = "none";
   btnCancel.style.display = "none";
+
   timerForm.style.backgroundColor = `transparent`;
   if (timerArray.length != 0)
     timerForm.style.minHeight = "50vh";
@@ -284,4 +311,17 @@ function checkTimer(startTime, timerUI) {
 
   let time = end.getTime() - now - diff;
   return time <= 0;
+}
+
+//sets timer form to the preset object that is passed in
+//timerPreset: an object that holds a title, time, colour, and message for a preset timer
+function setTimerPreset(timerPreset) {
+  txtName.value = timerPreset.title;
+  txtHours.value = timerPreset.time[0];
+  txtMinutes.value = timerPreset.time[1];
+  txtSeconds.value = timerPreset.time[2];
+  selectedColour = timerPreset.colour;
+  btnColour.innerHTML = `${selectedColour} <i class="nav-arrow"></i>`;
+  timerForm.style.backgroundColor = `var(--${selectedColour})`;
+  txtMessage.value = timerPreset.message;
 }

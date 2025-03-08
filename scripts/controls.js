@@ -48,7 +48,8 @@ btnListView.addEventListener("click", () => {
       container.style.minWidth = "100%";
       container.style.minHeight = "auto";
       container.style.flexDirection = "row";
-      container.style.gap = "48px";
+      container.style.justifyContent = "space-between";
+      container.style.gap = "0";
     });
   } else {
     btnListView.innerHTML = '<i class="fa-solid fa-list"></i> Switch to List View';
@@ -58,6 +59,7 @@ btnListView.addEventListener("click", () => {
       container.style.minWidth = "50%";
       container.style.minHeight = "50vh";
       container.style.flexDirection = "column";
+      container.style.justifyContent = "center";
       container.style.gap = "8px";
     });
   }
